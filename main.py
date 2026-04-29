@@ -1,16 +1,31 @@
-import flask
+import logging
+from flask import Flask, render_template, request
+app = Flask(__name__)
 
-# If `entrypoint` is not defined in app.yaml, App Engine will look for an app
-# called `app` in `main.py`.
-app = flask.Flask(__name__)
-@app.route("/", methods=["GET"])
+@app.route('/')
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
-def hello():
-    """ Return a friendly HTTP greeting. """
-    return "Hello World!\n"
+@app.route('/budget')
+def about():
+    return render_template('budget.html')
 
-if __name__ == "__main__":
-    # Used when running locally only. When deploying to Google App
-    # Engine, a webserver process such as Gunicorn will serve the app. This
-    # can be configured by adding an `entrypoint` to app.yaml.
-    app.run(host="localhost", port=8080, debug=True)
+@app.route('/results')
+def results():
+    return render_template('results.html')
+
+# [END render_template]
+@app.errorhandler(500)
+def server_error(e):
+    # Log the error and stacktrace.
+    logging.exception('An error occurred during a request.')
+    return 'An internal error occurred.', 500
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
+
+if __name__ == '__main__':
+    # Only run for local development.
+    app.run(host='127.0.0.1', port=8081, debug=True)

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% set active_page = "home" %}
+{% block content %}
+<div class="starter-template">
+    <h1>What are you shopping for today?</h1>
+
+    <form class="search-box">
+        <input type="text" placeholder="Headphones..." name="product" required minlength="2"/>
+        <button type="submit"> ⌕ </button>
+    </form>
+</div>
+{% endblock %}

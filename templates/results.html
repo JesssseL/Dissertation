@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% set active_page = "results" %}
+{% block content %}
+
+<h1>Top Picks for you</h1>
+<h2>Based on your search for [X]</h2>
+
+<div class="products">
+    <article class="product-card">
+        <div class="image-placeholder"></div>
+
+        <h2>Product Name</h2>
+
+        <p class="label">Features</p>
+        <div class="tags">
+            <span>✓ Feature One</span>
+            <span>✓ Feature Two</span>
+        </div>
+
+        <p class="label">Additional Features</p>
+        <div class="tags">
+            <span>+ Feature One</span>
+            <span>+ Feature Two</span>
+            <span>+ Feature Three</span>
+            <span>+ Feature Four</span>
+        </div>
+
+        <div class="card-footer">
+            <p>£999.99</p>
+            <button>▱ Save</button>
+        </div>
+    </article>
+
+    <article class="product-card">
+        <div class="image-placeholder"></div>
+
+        <h2>Product Name</h2>
+
+        <p class="label">Features</p>
+        <div class="tags">
+            <span>✓ Feature One</span>
+            <span>✓ Feature Two</span>
+        </div>
+
+        <p class="label">Additional Features</p>
+        <div class="tags">
+            <span>+ Feature One</span>
+            <span>+ Feature Two</span>
+            <span>+ Feature Three</span>
+            <span>+ Feature Four</span>
+        </div>
+
+        <div class="card-footer">
+            <p>£999.99</p>
+            <button>▱ Save</button>
+        </div>
+    </article>
+
+    <article class="product-card">
+        <div class="image-placeholder"></div>
+
+        <h2>Product Name</h2>
+
+        <p class="label">Features</p>
+        <div class="tags">
+            <span>✓ Feature One</span>
+            <span>✓ Feature Two</span>
+        </div>
+
+        <p class="label">Additional Features</p>
+        <div class="tags">
+            <span>+ Feature One</span>
+            <span>+ Feature Two</span>
+            <span>+ Feature Three</span>
+            <span>+ Feature Four</span>
+        </div>
+
+        <div class="card-footer">
+            <p>£999.99</p>
+            <button>▱ Save</button>
+        </div>
+    </article>
+</div>
+
+<div class="actions">
+    <button>← New Search</button>
+    <button class="disabled">↻ Regenerate</button>
+    <button>⌕ Refine Search</button>
+</div>
+
+{% endblock %}

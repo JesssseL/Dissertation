@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% set active_page = "budget" %}
+{% block content %}
+
+<h1>What’s your budget?</h1>
+<h2>Select an option or enter your own</h2>
+
+<div class="cards">
+  <input type="radio" name="budget" id="budget1" checked>
+  <label for="budget1" class="card">
+    <div class="icon">£</div>
+    <h3>Budget</h3>
+    <p>Under £999</p>
+  </label>
+
+  <input type="radio" name="budget" id="budget2">
+  <label for="budget2" class="card">
+    <div class="icon">££</div>
+    <h3>Mid-Range</h3>
+    <p>£999 - £999</p>
+  </label>
+
+  <input type="radio" name="budget" id="budget3">
+  <label for="budget3" class="card">
+    <div class="icon">£££</div>
+    <h3>Premium</h3>
+    <p>Over £999</p>
+  </label>
+</div>
+
+<!-- 
+Referance 
+ https://dev.to/sarmunbustillo/custom-double-range-slider-3h8a
+-->
+<div class="wrapper">
+  <div class="range-slider" >
+    <div class="range-labels">
+      <span class="range-label range-label-start">0</span>
+      <span class="range-label range-label-end">100</span>
+    </div>
+    <input type="range" min="0" value="0" max="149" name="" id="">
+    <input type="range" min="1" value="150" max="150" name="" id="">
+
+    <div class="track-wrapper">
+      <div class="track"></div>
+      <div class="range-between"></div>
+      <div class="thumb left"></div>
+      <div class="thumb right"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
