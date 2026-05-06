@@ -5,6 +5,7 @@ import SelectableImage from './elements/SelectableImage.vue'
 import SelectableTag from './elements/SelectableTag.vue'
 import SuggestionInput from './components/SuggestionInput.vue'
 import BudgetSelect from './components/BudgetSelect.vue'
+import ProductCard from './components/ProductCard.vue'
 </script>
 
 <template>
@@ -27,6 +28,14 @@ import BudgetSelect from './components/BudgetSelect.vue'
       ]"
     />
     <BudgetSelect />
+    <ProductCard 
+      name="Product Name" 
+      image="https://picsum.photos/200/300" 
+      :features="['Feature 1', 'Feature 2', 'Feature 3']" 
+      :additionalFeatures="['Feature 1', 'Feature 2', 'Feature 3']" 
+      price="999.99"
+    />
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
