@@ -51,12 +51,22 @@ export default {
       type: Number,
       default: 100,
     },
+    modelMin: Number,
+    modelMax: Number,
   },
   data() {
     return {
       minValue: this.min,
       maxValue: this.max,
     };
+  },
+  watch: {
+    modelMin(newVal) {
+      this.minValue = newVal;
+    },
+    modelMax(newVal) {
+      this.maxValue = newVal;
+    }
   },
   computed: {
     rangeStyle() {
@@ -93,9 +103,10 @@ export default {
       this.emitChange();
     },
     emitChange() {
-      this.$emit("change", {
+      this.$emit("updateRange", {
         min: this.minValue,
         max: this.maxValue,
+        type: "rangeSlider"
       });
     },
   },
@@ -106,6 +117,8 @@ export default {
 .range-slider {
     display: flex;
     gap: 5px;
+    width: 100%;
+    height: fit-content;
 }
 .slider-input {
     background: var(--light-green);

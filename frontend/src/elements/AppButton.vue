@@ -35,12 +35,15 @@ button {
   border-radius: 5px;
   border: 0;
   margin: 0;
+  gap: 5px;
+  cursor: pointer;
+  width: fit-content;
+  height: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 button:hover {
   background-color: red;
-}
-
-.button-icon {
-  margin-right: 5px;
 }
 </style>
