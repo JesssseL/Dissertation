@@ -43,6 +43,7 @@ export default {
       const searchStore = useSearchStore()
       searchStore.setMinPrice(this.selectedMin)
       searchStore.setMaxPrice(this.selectedMax)
+      this.$router.push('/results')
     }
   },
 };

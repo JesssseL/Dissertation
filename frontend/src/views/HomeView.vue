@@ -28,6 +28,7 @@ export default {
     search(event) {
       const searchStore = useSearchStore()
       searchStore.setQuery(event)
+      this.$router.push('/budget')
     },
   },
 };
