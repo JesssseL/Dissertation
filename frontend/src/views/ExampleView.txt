@@ -1,0 +1,17 @@
+<template>
+    <div class="template-name">
+    </div>
+</template>
+
+<script>
+export default {
+  name: "TemplateName",
+  props: {},
+  components: {},
+  data() {},
+  methods: {},
+};
+</script>
+
+<style scoped>
+</style>

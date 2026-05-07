@@ -106,7 +106,6 @@ export default {
       this.$emit("updateRange", {
         min: this.minValue,
         max: this.maxValue,
-        type: "rangeSlider"
       });
     },
   },
@@ -116,18 +115,24 @@ export default {
 <style scoped>
 .range-slider {
     display: flex;
-    gap: 5px;
+    gap: var(--gap);
     width: 100%;
     height: fit-content;
 }
 .slider-input {
-    background: var(--light-green);
+    background: var(--secondary);
     text-align: center;
     border: 0;
+
+    background: var(--card-background);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    padding: var(--padding);
+    color: var(--primary)
 }
 .slider-container {
   position: relative;
-  width: 300px;
+  width: 100%;
   height: 40px; /* important for vertical centering */
   overflow: hidden;
 }
@@ -147,7 +152,7 @@ export default {
 }
 
 .slider-range {
-  background: var(--green);
+  background: var(--primary);
 }
 
 input[type="range"] {
@@ -168,7 +173,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--primary);
 
   cursor: pointer;
   margin-top: 0; /* important fix for Chrome offset */
@@ -178,7 +183,7 @@ input[type="range"]::-moz-range-thumb {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--primary);
   cursor: pointer;
   border: none;
 }
@@ -194,5 +199,4 @@ input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
 </style>

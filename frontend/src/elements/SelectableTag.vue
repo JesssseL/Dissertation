@@ -37,16 +37,28 @@ export default {
         align-items: center;
         width: fit-content;
         position: relative;
-        padding: 5px 10px;
-        border-radius: 5px;
-        border: 0;
+        padding: var(--padding) calc(var(--padding) * 2);
+        border-radius: var(--border-radius);
+        border: 2px solid var(--border-secondary);
+        color: var(--primary);
         margin: 0;
-        background-color: lightgrey;
+    }
+    .tertiary {
+        background-color: var(--card-background);
+        border: 2px solid var(--primary);
+        color: var(--primary);
+    }
+    .selectable_tag_element:hover {
+        background: var(--card-hover);
     }
 
     .selectable_tag_element:has(input[type="checkbox"]:checked) {
-        background-color: var(--light-green); 
-        color: var(--green);
+        border: 2px solid var(--light);
+        background: var(--light);
+    }
+    .selectable_tag_element:has(input[type="checkbox"]:checked):hover {
+        border: 2px solid var(--light-hover);
+        background: var(--light-hover);
     }
     .selectable_tag_element:has(input[type="checkbox"]:focus-visible) {
         outline: 1px solid black;
@@ -62,7 +74,10 @@ export default {
         cursor: pointer;
     }
     .selectable_tag_element label {
-        display: inline-flex
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.8rem;
     }
     .selectable_tag_element label::before {
         font-family: 'Material Symbols Outlined';

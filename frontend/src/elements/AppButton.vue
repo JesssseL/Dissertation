@@ -1,14 +1,23 @@
 <template>
     <button
-      @click="click">
+      @click="click"
+      :type="type"
+      :disabled="disabled"
+      :class="[theme, { 'full-width': fullWidth }]"
+    >
         <span 
-          v-if="icon"
+          v-if="leftIcon"
           class="button-icon material-symbols-outlined"> 
-          {{icon}}
+          {{leftIcon}}
         </span>
         <span
           v-if="text"> 
           {{text}} 
+        </span>
+        <span 
+          v-if="rightIcon"
+          class="button-icon material-symbols-outlined"> 
+          {{rightIcon}}
         </span>
     </button>
 </template>
@@ -17,11 +26,30 @@
 export default {
   props: {
     text: String,
-    icon: String,
+    leftIcon: String,
+    rightIcon: String,
+    theme: {
+      type: String,
+      default: "primary"
+    },
+    type: {
+      type: String,
+      default: "button"
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    fullWidth: {
+      type: Boolean,
+      default: false,
+    }
   },
   methods: {
     click() {
-      this.$emit("click");
+      if (!this.disabled) {
+        this.$emit("click");
+      }
     }
   }
 }
@@ -29,21 +57,58 @@ export default {
 
 <style scoped>
 button {
-  background-color: var(--green);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
+  padding: var(--padding-large) calc(var(--padding-large) * 2);
+  border-radius: var(--border-radius);
   border: 0;
   margin: 0;
-  gap: 5px;
+  gap: var(--gap);
   cursor: pointer;
   width: fit-content;
   height: fit-content;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.2s ease;
 }
-button:hover {
-  background-color: red;
+
+.primary {
+  background-color: var(--primary);
+  color: var(--white);
+}
+.primary:hover {
+  background: var(--primary-hover);
+}
+
+.secondary {
+  background-color: var(--light);
+  color: var(--primary);
+}
+.secondary:hover {
+  background: var(--light-hover);
+}
+
+.tertiary {
+  background-color: var(--card-background);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.tertiary:hover {
+  background: var(--card-hover);
+}
+
+.full-width {
+  width: 100%;
+}
+
+button:focus-visible {
+  outline: 5px solid var(--outline);
+  background: var(--primary-hover); 
+}
+
+button:disabled,
+button:disabled:hover {
+  background: var(--disabled);
+  color: var(--grey-text);
+  cursor: not-allowed;
 }
 </style>

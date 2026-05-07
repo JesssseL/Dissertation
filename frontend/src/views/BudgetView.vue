@@ -1,0 +1,60 @@
+<template>
+    <div class="budget container">
+        <div class="header">
+          <h1> What's your budget? </h1>
+          <h2> Select an option or enter your own </h2>
+        </div>
+        <BudgetSelect 
+          @budgetUpdate="updateBudget" 
+        />
+        <AppButton 
+          text="Next"
+          :disabled="selectedMin === null || selectedMax === null"
+          rightIcon="arrow_forward"
+          @click="saveBudget"
+        />
+    </div>
+</template>
+
+<script>
+import BudgetSelect from '../components/BudgetSelect.vue'
+import AppButton from '../elements/AppButton.vue'
+import { useSearchStore } from '../stores/searchStore'
+
+export default {
+  name: "BudgetView",
+  props: {},
+  components: {
+    BudgetSelect,
+    AppButton,
+  },
+  data() {
+      return {
+          selectedMin: null,
+          selectedMax: null,
+      };
+  },
+  methods: {
+    updateBudget(event) {
+      this.selectedMin = event.min;
+      this.selectedMax = event.max;
+    },
+    saveBudget() {
+      const searchStore = useSearchStore()
+      searchStore.setMinPrice(this.selectedMin)
+      searchStore.setMaxPrice(this.selectedMax)
+    }
+  },
+};
+</script>
+
+<style scoped>
+.budget {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+button {
+  align-self: flex-end;
+}
+</style>

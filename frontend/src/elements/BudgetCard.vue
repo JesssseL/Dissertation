@@ -9,8 +9,8 @@
         >
         <label for="budget1" class="card">
             <div class="icon"> {{icon}} </div>
-            <h3> {{label}} </h3>
-            <p> {{getBudgetText()}} </p>
+            <h3 class="label"> {{label}} </h3>
+            <p class="budget-text"> {{getBudgetText()}} </p>
         </label>
     </div>
 </template>
@@ -50,10 +50,10 @@
                     case 'low':
                         return `Under £${this.max}`
 
-                    case 'mid':
+                    case 'high':
                         return `Over £${this.min}`
 
-                    case 'high':
+                    case 'mid':
                         return `£${this.min} - £${this.max}`
 
                     default:
@@ -73,6 +73,49 @@
 
 <style scoped>
 .icon {
-  font-size: 2rem;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary);
 }
+.label {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.budget-card {
+    padding: 40px 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    gap: var(--gap);
+    font-size: 2rem;
+    background: var(--card-background);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+.budget-card:hover {
+    background: var(--card-hover);
+}
+.budget-card input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.budget-card:has(input[type="radio"]:checked) {
+    border: 3px solid var(--primary);
+    background: var(--light);
+}
+.budget-card:has(input[type="radio"]:focus-visible) {
+    outline: 5px solid var(--outline)
+}
+
 </style>

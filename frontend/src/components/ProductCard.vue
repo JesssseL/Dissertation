@@ -26,11 +26,23 @@
                     :checked="false" 
                 />
             </div>
+        </div>
 
-            <div class="card-footer">
-                <p>£999.99</p>
-                <AppButton text="Save" icon="folder" />
+        <div class="card-footer">
+            <div class="card-spacer">
+                <p class="price">£999.99</p>
+                <AppButton 
+                    text="Save" 
+                    leftIcon="folder_open"
+                    theme="secondary"
+                />
             </div>
+            <AppButton 
+                text="Go to website" 
+                leftIcon="open_in_new"
+                :fullWidth="true"
+                theme="tertiary"
+            />
         </div>
     </article>
 </template>
@@ -72,21 +84,33 @@ export default {
 
 <style scoped>
 .product-card {
-    width: 300px;
-    height: fit-content;
-    background-color: whitesmoke;
+    padding: var(--padding-large);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--gap);
+    font-size: 2rem;
+    background: var(--card-background);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-small);
 }
 
 .card-title {
-    font-size: large;
-    text-align: center;
+    font-size: 1.2rem;
+    font-family: var(--font-secondary);
+    font-weight: 600;
     margin: 0;
 }
 
 .card-image {
     width: 100%;
-    height: 200px;
+    height: 175px;
     position: relative;
+    border-radius: var(--border-radius);
     overflow: clip;
 }
 
@@ -99,21 +123,36 @@ export default {
 .card-main {
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    gap: 5px;
+    gap: var(--gap);
 }
 
 .card-features {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: var(--gap);
+    margin-bottom: var(--gap);
 }
 
-.card-footer {
+.card-spacer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.card-footer {
     border-top: 2px solid black;
-    padding-top: 5px;
+    padding-top: var(--padding);
+    flex-direction: column;
+    margin-top: auto;
+    gap: var(--gap);
+    display: flex;
+}
+
+.label {
+    font-size: 0.8rem;
+}
+
+.price {
+    color: var(--primary);
 }
 </style>
