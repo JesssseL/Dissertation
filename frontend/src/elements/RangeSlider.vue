@@ -188,6 +188,36 @@ input[type="range"]::-moz-range-thumb {
   border: none;
 }
 
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]:focus-visible::-webkit-slider-thumb {
+  width: 34px;
+  height: 34px;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--primary) 0 9px,
+      var(--background) 9px 12px,
+      var(--outline) 12px 17px
+    );
+}
+
+input[type="range"]:focus-visible::-moz-range-thumb {
+  width: 34px;
+  height: 34px;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--primary) 0 9px,
+      var(--background) 9px 12px,
+      var(--outline) 12px 17px
+    );
+}
+
 /*
 Source - https://stackoverflow.com/a/23715905
 Posted by rink.attendant.6

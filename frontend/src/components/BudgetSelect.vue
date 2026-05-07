@@ -11,7 +11,8 @@
         <RangeSlider 
             @updateRange="updateSelectedRange"
             :min="low.min"
-            :max="high.max"            :modelMin="selectedMin"
+            :max="high.max"            
+            :modelMin="selectedMin"
             :modelMax="selectedMax"
         />
 
@@ -46,24 +47,24 @@
                     "max": 750,
                 }),
             },
+            selectedMin: {
+                type: Number,
+                default: 0,
+            },
+            selectedMax: {
+                type: Number,
+                default: 10,
+            },
         },
         components: {
             BudgetCard,
             RangeSlider,
         },
-        data() {
-            return {
-                selectedMin: 0,
-                selectedMax: 10,
-            };
-        },
         methods: {
             updateSelectedRange(event) {
-                this.selectedMin = event.min;
-                this.selectedMax = event.max;
                 this.$emit("budgetUpdate", {
-                    min: this.selectedMin,
-                    max: this.selectedMax,
+                    min: event.min,
+                    max: event.max,
                 });
             }
         },

@@ -61,7 +61,9 @@ export default {
         background: var(--light-hover);
     }
     .selectable_tag_element:has(input[type="checkbox"]:focus-visible) {
-        outline: 1px solid black;
+        outline: 5px solid var(--outline);
+        outline-offset: 3px;
+        z-index: 1;
     }
 
     .selectable_tag_element input{

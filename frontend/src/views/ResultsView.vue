@@ -35,15 +35,18 @@
             <AppButton 
                 text="New Search"
                 leftIcon="arrow_back"
+                @click="newSearch"
             />
             <AppButton 
                 text="Regenerate"
                 leftIcon="wand_stars"
                 :disabled="true"
+                @click="regenerateSearch"
             />
             <AppButton
                 text="Refine Search"
                 leftIcon="search"
+                @click="refineSearch"
             />
         </div>
     </div>
@@ -52,6 +55,7 @@
 <script>
 import ProductCard from '../components/ProductCard.vue'
 import AppButton from '../elements/AppButton.vue'
+import { useSearchStore } from '../stores/searchStore'
 
 export default {
   name: "ResultsView",
@@ -60,8 +64,23 @@ export default {
     ProductCard,
     AppButton,
   },
-  data() {},
-  methods: {},
+  data() {
+    return {
+      searchStore: useSearchStore()
+    };
+  },
+  methods: {
+    newSearch() {
+      this.searchStore.clearStore()
+      this.$router.push('/')
+    },
+    regenerateSearch() {
+      this.$router.push('/loading')
+    },
+    refineSearch() {
+      this.$router.push('/budget')
+    }
+  },
 };
 </script>
 
@@ -72,7 +91,6 @@ export default {
     width: 100%;
     flex: 1;
 }
-/* -Media Queries- */
 
 .results {
   display: flex;

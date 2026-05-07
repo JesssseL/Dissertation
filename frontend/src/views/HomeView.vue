@@ -24,10 +24,14 @@ export default {
   components: {
     SuggestionInput,
   },
+  data() {
+    return {
+      searchStore: useSearchStore()
+    };
+  },
   methods: {
     search(event) {
-      const searchStore = useSearchStore()
-      searchStore.setQuery(event)
+      this.searchStore.setQuery(event)
       this.$router.push('/budget')
     },
   },

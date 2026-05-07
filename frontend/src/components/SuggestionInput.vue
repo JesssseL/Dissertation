@@ -84,7 +84,8 @@ export default {
 }
 
 .search-box:has(input:focus-visible) {
-    outline: var(--outline) auto 5px;
+    outline: 5px solid var(--outline);
+    outline-offset: 3px;
 }
 
 .search-box input {

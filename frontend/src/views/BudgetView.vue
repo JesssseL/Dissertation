@@ -5,6 +5,8 @@
           <h2> Select an option or enter your own </h2>
         </div>
         <BudgetSelect 
+          :selectedMin="selectedMin"
+          :selectedMax="selectedMax"
           @budgetUpdate="updateBudget" 
         />
         <AppButton 
@@ -30,9 +32,14 @@ export default {
   },
   data() {
       return {
+          searchStore: useSearchStore(),
           selectedMin: null,
           selectedMax: null,
       };
+  },
+  mounted() {
+      this.selectedMin = this.searchStore.minPrice
+      this.selectedMax = this.searchStore.maxPrice
   },
   methods: {
     updateBudget(event) {
@@ -40,9 +47,8 @@ export default {
       this.selectedMax = event.max;
     },
     saveBudget() {
-      const searchStore = useSearchStore()
-      searchStore.setMinPrice(this.selectedMin)
-      searchStore.setMaxPrice(this.selectedMax)
+      this.searchStore.setMinPrice(this.selectedMin)
+      this.searchStore.setMaxPrice(this.selectedMax)
       this.$router.push('/results')
     }
   },

@@ -75,7 +75,8 @@ button {
   background-color: var(--primary);
   color: var(--white);
 }
-.primary:hover {
+.primary:hover,
+.primary:focus-visible {
   background: var(--primary-hover);
 }
 
@@ -83,7 +84,8 @@ button {
   background-color: var(--light);
   color: var(--primary);
 }
-.secondary:hover {
+.secondary:hover,
+.secondary:focus-visible {
   background: var(--light-hover);
 }
 
@@ -92,7 +94,8 @@ button {
   border: 2px solid var(--primary);
   color: var(--primary);
 }
-.tertiary:hover {
+.tertiary:hover,
+.tertiary:focus-visible {
   background: var(--card-hover);
 }
 
@@ -102,7 +105,7 @@ button {
 
 button:focus-visible {
   outline: 5px solid var(--outline);
-  background: var(--primary-hover); 
+  outline-offset: 3px;
 }
 
 button:disabled,

@@ -30,7 +30,7 @@
 
   --border: #ECECEC;
   --border-secondary: #EDE7FA;
-  --outline: #DCE6CB;
+  --outline: #9CCB7F;
   --highlight: #EEE6FF;
 
   --font-main: 'Inter', sans-serif;
@@ -62,7 +62,8 @@ body {
 }
 
 *:focus-visible {
-  outline: 5px solid var(--outline)
+  outline: 5px solid var(--outline);
+  outline-offset: 3px;
 }
 
 .accent {

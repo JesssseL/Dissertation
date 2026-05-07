@@ -115,7 +115,8 @@
     background: var(--light);
 }
 .budget-card:has(input[type="radio"]:focus-visible) {
-    outline: 5px solid var(--outline)
+    outline: 5px solid var(--outline);
+    outline-offset: 3px;
 }
 
 </style>

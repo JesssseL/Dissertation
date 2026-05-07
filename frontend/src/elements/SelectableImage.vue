@@ -73,7 +73,8 @@ export default {
     opacity: 1;
 }
 .selectable_image_element:has(input[type="checkbox"]:focus-visible img) {
-    outline: 1px solid black;
+    outline: 5px solid var(--outline);
+    outline-offset: 3px;
 }
 
 .selectable_image_element input{
