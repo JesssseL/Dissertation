@@ -1,38 +1,73 @@
 <template>
     <section class="container loading-page">
-    
-    <div class="loading-content">
+      <div class="loading-content">
+        <span class="material-symbols-outlined loading-icon">
+          shopping_bag
+        </span>
 
-      <span class="material-symbols-outlined loading-icon">
-        shopping_bag
-      </span>
+        <template v-if="loadingType === 'intent'">
+          <h1 class="loading-text">
+            Understanding
+            <span class="accent">{{ searchStore.query }}</span>
+            options...
+          </h1>
+          <p>Gathering information to help your choices.</p>
+        </template>
 
-      <h1 class="loading-text">
-        Finding the best
-        <span class="accent">[x]</span>
-        for you
-      </h1>
+        <template v-else-if="loadingType === 'results'">
+          <h1 class="loading-text">
+            Finding the best
+            <span class="accent">{{ searchStore.query }}</span>
+            for you...
+          </h1>
+          <p>Please wait while we personalise your recommendations.</p>
+        </template>
 
-      <p>Please wait while we personalise your recommendations.</p>
-
-    </div>
-
+        <template v-else>
+          <h1 class="loading-text">
+            Loading...
+          </h1>
+        </template>
+      </div>
     </section>
 </template>
 
 <script>
-import SuggestionInput from '../components/SuggestionInput.vue'
 import { useSearchStore } from '../stores/searchStore'
 
 export default {
-  name: "HomeView",
-  components: {
-    SuggestionInput,
+  name: "LoadingView",
+  data() {
+    return {
+      searchStore: useSearchStore()
+    };
+  },
+  computed: {
+    loadingType() {
+      return this.$route.params.type
+    },
+  },
+  async mounted() {
+    if (this.loadingType === 'intent'){
+      await this.getProductInfo()
+      this.$router.push('/budget') //TODO - reroute to intent specification
+    }
+    else if (this.loadingType === 'results'){
+      await this.getProductResults()
+      this.$router.push('/results')
+    }
+    else {
+      this.$router.push('/')
+    }
   },
   methods: {
-    search(event) {
-      const searchStore = useSearchStore()
-      searchStore.setQuery(event)
+    async getProductInfo() {
+      await new Promise(resolve => setTimeout(resolve, 3000)) //TODO - api call
+      return true
+    },
+    async getProductResults () {
+      await new Promise(resolve => setTimeout(resolve, 3000)) //TODO - api call
+      return true
     },
   },
 };
@@ -54,6 +89,7 @@ h1 * {
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
 }
 
 .loading-content {

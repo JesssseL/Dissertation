@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import BudgetView from '../views/BudgetView.vue'
 import ResultsView from '../views/ResultsView.vue'
+import LoadingView from '../views/LoadingView.vue'
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
     path: '/results',
     name: 'Results',
     component: ResultsView
+  },
+  {
+    path: '/loading/:type',
+    name: 'Loading',
+    component: LoadingView,
   }
 ]
 

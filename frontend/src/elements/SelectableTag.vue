@@ -48,7 +48,8 @@ export default {
         border: 2px solid var(--primary);
         color: var(--primary);
     }
-    .selectable_tag_element:hover {
+    .selectable_tag_element:hover,
+    .selectable_tag_element:has(input[type="checkbox"]:focus-visible) {
         background: var(--card-hover);
     }
 
@@ -56,7 +57,8 @@ export default {
         border: 2px solid var(--light);
         background: var(--light);
     }
-    .selectable_tag_element:has(input[type="checkbox"]:checked):hover {
+    .selectable_tag_element:has(input[type="checkbox"]:checked):hover,
+    .selectable_tag_element:has(input[type="checkbox"]:checked:focus-visible) {
         border: 2px solid var(--light-hover);
         background: var(--light-hover);
     }

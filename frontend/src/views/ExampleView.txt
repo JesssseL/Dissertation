@@ -9,6 +9,10 @@ export default {
   props: {},
   components: {},
   data() {},
+  watch: {},
+  computed: {},
+  mounted() {},
+  beforeUnmount() {},
   methods: {},
 };
 </script>

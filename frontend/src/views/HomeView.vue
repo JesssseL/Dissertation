@@ -32,7 +32,7 @@ export default {
   methods: {
     search(event) {
       this.searchStore.setQuery(event)
-      this.$router.push('/budget')
+      this.$router.push('/loading/intent')
     },
   },
 };

@@ -3,7 +3,7 @@
         <div class="header">
           <h1> Top Picks for you </h1>
           <h2> Based on your search for 
-            <span class="accent">[x]</span>
+            <span class="accent">{{searchStore.query}}</span>
           </h2>
         </div>
         
@@ -66,7 +66,7 @@ export default {
   },
   data() {
     return {
-      searchStore: useSearchStore()
+      searchStore: useSearchStore(),
     };
   },
   methods: {

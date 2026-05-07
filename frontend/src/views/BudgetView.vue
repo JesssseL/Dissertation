@@ -49,7 +49,7 @@ export default {
     saveBudget() {
       this.searchStore.setMinPrice(this.selectedMin)
       this.searchStore.setMaxPrice(this.selectedMax)
-      this.$router.push('/results')
+      this.$router.push('/loading/results')
     }
   },
 };
