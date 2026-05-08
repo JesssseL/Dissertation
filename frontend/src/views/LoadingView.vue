@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     loadingType() {
-      return this.$route.params.type
+      return this.$route.meta.loadingType
     },
   },
   async mounted() {
