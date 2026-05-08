@@ -12,21 +12,21 @@
                 name="Product Name" 
                 image="https://picsum.photos/400/300" 
                 :features="['Feature One', 'Feature Two', 'Feature Three', 'Feature Four']" 
-                :additionalFeatures="['Feature One', 'Feature One', 'Feature Three']" 
+                :additionalFeatures="['Feature Five', 'Feature Six', 'Feature Seven']" 
                 price="999.99"
             />
             <ProductCard 
                 name="Product Name" 
                 image="https://picsum.photos/200/300" 
                 :features="['Feature One', 'Feature Two', 'Feature Three']" 
-                :additionalFeatures="['Feature One', 'Feature Two', 'Feature Three', 'Feature Four']" 
+                :additionalFeatures="['Feature Five', 'Feature Eight', 'Feature Nine', 'Feature Ten']" 
                 price="999.99"
             />
             <ProductCard 
                 name="Product Name" 
                 image="https://picsum.photos/600/600" 
                 :features="['Feature One', 'Feature Two', 'Feature Three', 'Feature Four']" 
-                :additionalFeatures="['Feature One', 'Feature Two', 'Feature Three', 'Feature Four']" 
+                :additionalFeatures="['Feature Six', 'Feature Seven', 'Feature Nine', 'Feature Ten']" 
                 price="999.99"
             />
         </div>

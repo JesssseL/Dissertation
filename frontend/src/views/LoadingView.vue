@@ -34,6 +34,9 @@
 
 <script>
 import { useSearchStore } from '../stores/searchStore'
+import { getProductFeatures, getBudgetRanges } from '../services/productService'
+import { getReccomendations } from '../services/reccomendationService'
+
 
 export default {
   name: "LoadingView",
@@ -62,11 +65,16 @@ export default {
   },
   methods: {
     async getProductInfo() {
-      await new Promise(resolve => setTimeout(resolve, 3000)) //TODO - api call
+      await Promise.all([
+        getProductFeatures(),
+        getBudgetRanges()
+      ])
+
       return true
     },
     async getProductResults () {
-      await new Promise(resolve => setTimeout(resolve, 3000)) //TODO - api call
+      await getReccomendations()
+
       return true
     },
   },
