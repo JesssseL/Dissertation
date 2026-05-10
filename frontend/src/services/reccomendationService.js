@@ -1,7 +1,7 @@
 import { apiRequest } from './api/request'
-import { getReccomendationsMock } from './mocks/reccomendationMock'
+import { getRecommendationsMock } from './mocks/reccomendationMock'
 
-export function getReccomendations(query) {
-    return getReccomendationsMock(query)
+export function getRecommendations(product, minPrice, maxPrice) {
+    return getRecommendationsMock(product, minPrice, maxPrice)
     //return apiRequest('reccomendation/results', query)
 }

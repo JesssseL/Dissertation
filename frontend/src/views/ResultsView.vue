@@ -6,28 +6,23 @@
             <span class="accent">{{searchStore.query}}</span>
           </h2>
         </div>
+
+        <div class="background-gradient">
+          Chat about these options with AI
+        </div>
         
         <div class="product-cards">
             <ProductCard 
-                name="Product Name" 
-                image="https://picsum.photos/400/300" 
-                :features="['Feature One', 'Feature Two', 'Feature Three', 'Feature Four']" 
-                :additionalFeatures="['Feature Five', 'Feature Six', 'Feature Seven']" 
-                price="999.99"
-            />
-            <ProductCard 
-                name="Product Name" 
-                image="https://picsum.photos/200/300" 
-                :features="['Feature One', 'Feature Two', 'Feature Three']" 
-                :additionalFeatures="['Feature Five', 'Feature Eight', 'Feature Nine', 'Feature Ten']" 
-                price="999.99"
-            />
-            <ProductCard 
-                name="Product Name" 
-                image="https://picsum.photos/600/600" 
-                :features="['Feature One', 'Feature Two', 'Feature Three', 'Feature Four']" 
-                :additionalFeatures="['Feature Six', 'Feature Seven', 'Feature Nine', 'Feature Ten']" 
-                price="999.99"
+              v-for="product in productSuggestions"
+              :key="product.id"
+              :name="product.name" 
+              :image="product.image" 
+              :features="product.features" 
+              :additionalFeatures="product.additionalFeatures" 
+              :webUrl="product.webUrl"
+              :price="product.price"
+              :selectedFeatures="searchFeatures"
+              @toggleFeature="addSearchFeature"
             />
         </div>
 
@@ -40,7 +35,7 @@
             <AppButton 
                 text="Regenerate"
                 leftIcon="wand_stars"
-                :disabled="true"
+                :disabled="!featuresChanged"
                 @click="regenerateSearch"
             />
             <AppButton
@@ -56,6 +51,7 @@
 import ProductCard from '../components/ProductCard.vue'
 import AppButton from '../elements/AppButton.vue'
 import { useSearchStore } from '../stores/searchStore'
+import { useResultsStore } from '../stores/resultsStore'
 
 export default {
   name: "ResultsView",
@@ -67,9 +63,32 @@ export default {
   data() {
     return {
       searchStore: useSearchStore(),
+      resultsStore: useResultsStore(),
+      productSuggestions: [],
+      searchFeatures: [],
+      initialFeatures: [],
     };
   },
+  computed: {
+    featuresChanged() {
+      return JSON.stringify(this.initialFeatures) !== JSON.stringify(this.searchFeatures)
+    }
+  },
+  mounted() {
+    this.productSuggestions = this.resultsStore.results
+    this.searchFeatures = [...this.searchStore.features]
+    this.initialFeatures = [...this.searchStore.features]
+  },
   methods: {
+    addSearchFeature(feature) {
+      if (this.searchFeatures.includes(feature)) {
+        this.searchStore.removeFeature(feature)
+      }
+      else {
+        this.searchStore.addFeature(feature)
+      }
+      this.searchFeatures = this.searchStore.features
+    },
     newSearch() {
       this.searchStore.clearStore()
       this.$router.push('/')

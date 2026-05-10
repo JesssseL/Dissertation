@@ -22,7 +22,6 @@ export default {
   },
   methods: {
     emitChange() {
-        console.log(event.target.checked)
         this.$emit("change", {
             label: this.label,
             checked: event.target.checked,

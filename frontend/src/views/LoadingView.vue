@@ -34,15 +34,17 @@
 
 <script>
 import { useSearchStore } from '../stores/searchStore'
+import { useResultsStore } from '../stores/resultsStore'
 import { getProductFeatures, getBudgetRanges } from '../services/productService'
-import { getReccomendations } from '../services/reccomendationService'
+import { getRecommendations } from '../services/reccomendationService'
 
 
 export default {
   name: "LoadingView",
   data() {
     return {
-      searchStore: useSearchStore()
+      searchStore: useSearchStore(),
+      resultsStore: useResultsStore(),
     };
   },
   computed: {
@@ -73,8 +75,13 @@ export default {
       return true
     },
     async getProductResults () {
-      await getReccomendations()
+      const results = await getRecommendations({
+        productType: this.searchStore.productType,
+        budgetMin: this.searchStore.budgetMin,
+        budgetMax: this.searchStore.budgetMax
+      })
 
+      this.resultsStore.setResults(results)
       return true
     },
   },

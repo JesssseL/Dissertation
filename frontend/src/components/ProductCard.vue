@@ -7,13 +7,14 @@
         <div class="card-main">
             <h2 class="card-title"> {{name}} </h2>
 
-            <p class="label">Features</p>
+            <p class="label">Matched Features</p>
             <div class="card-features">
                 <SelectableTag 
                     v-for="feature in features" 
                     :key="feature"
                     :label="feature" 
-                    :checked="true" 
+                    :checked="selectedFeatures.includes(feature)"
+                    @click="$emit('toggleFeature', feature)"
                 />
             </div>
 
@@ -23,14 +24,15 @@
                     v-for="feature in additionalFeatures" 
                     :key="feature"
                     :label="feature" 
-                    :checked="false" 
+                    :checked="selectedFeatures.includes(feature)"
+                    @click="$emit('toggleFeature', feature)"
                 />
             </div>
         </div>
 
         <div class="card-footer">
             <div class="card-spacer">
-                <p class="price">£999.99</p>
+                <p class="price">£{{ Number(price).toFixed(2) }}</p>
                 <AppButton 
                     text="Save" 
                     leftIcon="folder_open"
@@ -38,7 +40,8 @@
                 />
             </div>
             <AppButton 
-                text="Go to website" 
+                text="Go to website"
+                :href="webUrl"
                 leftIcon="open_in_new"
                 :fullWidth="true"
                 theme="tertiary"
@@ -55,8 +58,8 @@ export default {
   name: "ProductCard",
   props: {
     name: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "Product Name",
     },
     image: {
       type: String,
@@ -64,15 +67,23 @@ export default {
     },
     features: {
       type: Array,
-      default: [],
+      default: () => []
     },
     additionalFeatures: {
       type: Array,
-      default: [],
+      default: () => []
     },
     price: {
       type: Number,
       default: 0,
+    },
+    webUrl: {
+      type: String,
+      default: "",
+    },
+    selectedFeatures: {
+      type: Array,
+      default: () => [],
     },
   },
   components: {

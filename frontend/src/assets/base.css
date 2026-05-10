@@ -3,11 +3,7 @@
 :root {
   --white: #ffffff;
   --background: #F8F8F7;
-  --background-gradient: linear-gradient(
-    135deg,
-    #F7F3FF 0%,
-    #FFFFFF 100%
-  );
+  --background-gradient: linear-gradient(39deg,rgba(237, 227, 252, 1) 0%, rgba(255, 255, 255, 1) 100%);
 
   --card-background: #ffffff;
   --card-hover: #f8f3fd;
@@ -91,6 +87,11 @@ body {
 
 .footer {
   margin-top: 1rem;
+}
+
+.background-gradient {
+  background: var(--light);
+  background: var(--background-gradient)
 }
 
 #app {

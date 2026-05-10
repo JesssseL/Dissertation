@@ -18,6 +18,8 @@ export const useSearchStore = defineStore('search', () => {
   function setMinPrice(value) { minPrice.value = value }
   function setMaxPrice(value) { maxPrice.value = value }
   function setFeatures(value) { features.value = value }
+  function addFeature(value) { features.value.push(value) }
+  function removeFeature(value) { features.value.splice(features.value.indexOf(value), 1) }
 
   function clearStore() {
     query.value = ''
@@ -37,6 +39,8 @@ export const useSearchStore = defineStore('search', () => {
     setMinPrice,
     setMaxPrice,
     setFeatures,
+    addFeature,
+    removeFeature,
     clearStore
   }
 })
