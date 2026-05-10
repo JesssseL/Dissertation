@@ -35,6 +35,7 @@
 <script>
 import { useSearchStore } from '../stores/searchStore'
 import { useResultsStore } from '../stores/resultsStore'
+import { useDiscoveryStore } from '../stores/discoveryStore'
 import { getProductFeatures, getBudgetRanges } from '../services/productService'
 import { getRecommendations } from '../services/reccomendationService'
 
@@ -45,6 +46,7 @@ export default {
     return {
       searchStore: useSearchStore(),
       resultsStore: useResultsStore(),
+      discoveryStore: useDiscoveryStore(),
     };
   },
   computed: {
@@ -67,22 +69,34 @@ export default {
   },
   methods: {
     async getProductInfo() {
-      await Promise.all([
-        getProductFeatures(),
-        getBudgetRanges()
-      ])
+      try {
+        const [features, budgetRanges] = await Promise.all([
+          getProductFeatures(),
+          getBudgetRanges()
+        ])
 
-      return true
+        this.discoveryStore.setFeatures(features)
+        this.discoveryStore.setBudgetRanges(budgetRanges)
+        return true
+      } catch (error) {
+        console.error('Failed to load product info:', error)
+        return false
+      }
     },
     async getProductResults () {
-      const results = await getRecommendations({
-        productType: this.searchStore.productType,
-        budgetMin: this.searchStore.budgetMin,
-        budgetMax: this.searchStore.budgetMax
-      })
+      try {
+        const results = await getRecommendations({
+          productType: this.searchStore.productType,
+          budgetMin: this.searchStore.budgetMin,
+          budgetMax: this.searchStore.budgetMax
+        })
 
-      this.resultsStore.setResults(results)
-      return true
+        this.resultsStore.setResults(results)
+        return true
+      } catch (error) {
+        console.error('Failed to load product results:', error)
+        return false
+      }
     },
   },
 };

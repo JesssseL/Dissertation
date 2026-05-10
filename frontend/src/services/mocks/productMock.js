@@ -12,8 +12,8 @@ export async function getProductFeaturesMock(query) {
 export async function getBudgetRangesMock(query) {
     await new Promise(resolve => setTimeout(resolve, 3000))
     return [
-            { label: 'Budget', min: 20, max: 80 },
-            { label: 'Mid-range', min: 80, max: 200 },
-            { label: 'Premium', min: 200, max: 400 }
+            { label: 'Low', min: 20, max: 80 },
+            { label: 'Mid', min: 80, max: 200 },
+            { label: 'High', min: 200, max: 400 }
         ]
 }
