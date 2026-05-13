@@ -10,6 +10,7 @@ This is the frontend of the AI-Assisted Shopping System being developed as part 
 - Material Symbols
 
 ## Project Structure
+```
 src/
 ├── assets/            Static assets and global styles
 ├── components/        Larger reusable interface components
@@ -20,6 +21,7 @@ src/
 ├── views/             Application views/pages
 ├── App.vue            Root Vue component
 └── main.js            Application entry point
+```
 
 # Environment
 The frontend application was developed and tested with the following environment:
@@ -27,13 +29,19 @@ The frontend application was developed and tested with the following environment
 - npm v20.19.0
 
 ## Installation
+```
 npm i
+```
 
 ## Run Development Server
+```
 npm run dev
+```
 
 The application will normally run at:
 http://localhost:5173
 
 ## Build Production Version
+```
 npm run build
+```
