@@ -1,4 +1,4 @@
-export async function getRecommendationsMock(product, minPrice, maxPrice) {
+export async function getRecommendationsMock(query, minPrice, maxPrice) {
     await new Promise(resolve => setTimeout(resolve, 3000))
     return [
             {
