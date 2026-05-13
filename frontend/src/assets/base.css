@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+
+:root {
+  --white: #ffffff;
+  --background: #F8F8F7;
+  --background-gradient: linear-gradient(39deg,rgba(237, 227, 252, 1) 0%, rgba(255, 255, 255, 1) 100%);
+
+  --card-background: #ffffff;
+  --card-hover: #f8f3fd;
+
+  --primary: #9B6EF3;
+  --primary-hover: #8C5CF0;
+  --secondary: #CDB7FF;
+  --secondary-hover:  #B89DFB;
+  --light: #EDE3FC;
+  --light-hover: #E1D2FB;
+  --disabled: #D3D3D3;
+
+  --glow: rgba(155, 110, 243, 0.12);
+  --shadow: rgba(155, 110, 243, 0.349) 0px 5px 15px;
+  --shadow-small: rgba(154, 110, 243, 0.141) 0px 5px 5px;
+
+  --main-text: #151515;
+  --grey-text: #808080;
+  --secondary-text: #9B6EF3;
+
+  --border: #ECECEC;
+  --border-secondary: #EDE7FA;
+  --outline: #9CCB7F;
+  --highlight: #EEE6FF;
+
+  --font-main: 'Inter', sans-serif;
+  --font-secondary: 'Instrument Serif', serif;
+
+  --max-width: 1440px;
+  --padding: 5px;
+  --gap: 5px;
+  --padding-large: 10px;
+  --border-radius: 10px;
+}
+
+
+*,
+*::before,
+*::after,
+body,
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-size: 16px;
+}
+
+body {
+  color: var(--main-text);
+  font-family: var(--font-main);
+}
+
+*:focus-visible {
+  outline: 5px solid var(--outline);
+  outline-offset: 3px;
+}
+
+.accent {
+  color: var(--primary);
+}
+
+.help-text {
+  color: var(--grey-text);
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  max-height: 1000px;
+  max-width: var(--max-width);
+  padding: var(--padding-large);
+}
+
+.header {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.footer {
+  margin-top: 1rem;
+}
+
+.background-gradient {
+  background: var(--light);
+  background: var(--background-gradient)
+}
+
+#app {
+  background: var(--background);
+}
+
+::selection {
+  background: var(--highlight);
+}
+
+h1,
+h1 * {
+  font-family: var(--font-secondary);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
