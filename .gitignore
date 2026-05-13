@@ -37,3 +37,15 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Visual Studio
+.vs/
+
+# Environment files
+.env
+*.env
