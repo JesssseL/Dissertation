@@ -1,23 +1,10 @@
 import random
+from app.services.ai_service import (
+    generate_ai_budget_ranges,
+)
 
 def generate_budget_ranges(request):
-    return [
-        {
-            "label": "Low",
-            "min": 20,
-            "max": 80
-        },
-        {
-            "label": "Mid",
-            "min": 80,
-            "max": 200
-        },
-        {
-            "label": "High",
-            "min": 200,
-            "max": 400
-        }
-    ]
+    return generate_ai_budget_ranges(request.query)
 
 def generate_recommendations(request):
     return [
