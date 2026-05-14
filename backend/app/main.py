@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 import random
+from app.models.requests import (
+    BudgetRangesRequest,
+    RecommendationsRequest,
+)
 
 app = FastAPI(
         title="AI Shopping API",
@@ -24,14 +27,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-class BudgetRangesRequest(BaseModel):
-    query: str
-
-class RecommendationsRequest(BaseModel):
-    query: str
-    minPrice: float
-    maxPrice: float
 
 @app.get("/")
 def read_root():
