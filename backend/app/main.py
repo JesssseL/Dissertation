@@ -4,6 +4,10 @@ from app.models.requests import (
     BudgetRangesRequest,
     RecommendationsRequest,
 )
+from app.models.response import (
+    BudgetRange,
+    ProductRecommendation,
+)
 from app.services.search_service import (
     generate_budget_ranges,
     generate_recommendations,
@@ -36,10 +40,10 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.post("/api/budget-ranges")
+@app.post("/api/budget-ranges", response_model=list[BudgetRange])
 def get_budget_ranges(request: BudgetRangesRequest):
     return generate_budget_ranges(request)
 
-@app.post("/api/recommendations")
+@app.post("/api/recommendations", response_model=list[ProductRecommendation])
 def create_recommendations(request: RecommendationsRequest):
     return generate_recommendations(request)
