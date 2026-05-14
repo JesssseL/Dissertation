@@ -1,9 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import random
 from app.models.requests import (
     BudgetRangesRequest,
     RecommendationsRequest,
+)
+from app.services.search_service import (
+    generate_budget_ranges,
+    generate_recommendations,
 )
 
 app = FastAPI(
@@ -35,49 +38,8 @@ def read_root():
 
 @app.post("/api/budget-ranges")
 def get_budget_ranges(request: BudgetRangesRequest):
-    return [
-        {
-            "label": "Low",
-            "min": 20,
-            "max": 80
-        },
-        {
-            "label": "Mid",
-            "min": 80,
-            "max": 200
-        },
-        {
-            "label": "High",
-            "min": 200,
-            "max": 400
-        }
-    ]
+    return generate_budget_ranges(request)
 
 @app.post("/api/recommendations")
 def create_recommendations(request: RecommendationsRequest):
-    return [
-        {
-            "name": f"Everyday {request.query} XV",
-            "image": "https://picsum.photos/200/300?random=1",
-            "features": ["Eco-Friendly Packaging", "Portable", "Weather-Resistant"],
-            "additionalFeatures": ["Extended Warranty", "Lifetime Support", "Free Shipping"],
-            "webUrl": "https://www.amazon.com/",
-            "price": round(random.uniform(request.minPrice, request.maxPrice), 2)
-        },
-        {
-            "name": f"{request.query} Afterglow",
-            "image": "https://picsum.photos/200/300?random=1",
-            "features": ["Eco-Friendly Packaging", "Portable", "Weather-Resistant"],
-            "additionalFeatures": ["Instant-Setup", "BPA-Free", "Scratch-Resistant"],
-            "webUrl": "https://www.amazon.com/",
-            "price": round(random.uniform(request.minPrice, request.maxPrice), 2)
-        },
-        {
-            "name": f"Artisan's Choice {request.query}",
-            "image": "https://picsum.photos/200/300?random=1",
-            "features": ["Eco-Friendly Packaging", "Portable", "Weather-Resistant"],
-            "additionalFeatures": ["Reinforced Stitching", "Fair-trade", "Hand-painted"],
-            "webUrl": "https://www.amazon.com/",
-            "price": round(random.uniform(request.minPrice, request.maxPrice), 2)
-        },
-    ]
+    return generate_recommendations(request)
