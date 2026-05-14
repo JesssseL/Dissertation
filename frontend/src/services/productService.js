@@ -1,6 +1,5 @@
 import { apiRequest } from './api/request'
 import { getProductFeaturesMock } from './mocks/productMock'
-import { getBudgetRangesMock } from './mocks/productMock'
 
 export function getProductFeatures(query) {
     return getProductFeaturesMock(query)
@@ -8,6 +7,11 @@ export function getProductFeatures(query) {
 }
 
 export function getBudgetRanges(query) {
-    return getBudgetRangesMock(query)
-    //return apiRequest('product/budget-ranges', query)
+    console.log('query', query)
+    return apiRequest('/api/budget-ranges', {
+        method: 'POST',
+        body: JSON.stringify({
+            "query": query
+        })
+    })
 }

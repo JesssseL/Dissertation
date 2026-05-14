@@ -16,7 +16,7 @@ src/
 ├── components/        Larger reusable interface components
 ├── elements/          Small highly reusable UI elements
 ├── router/            Vue Router configuration (and state validation)
-├── services/          API services and mock data
+├── services/          API services
 ├── stores/            Pinia state management stores
 ├── views/             Application views/pages
 ├── App.vue            Root Vue component

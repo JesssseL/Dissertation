@@ -71,8 +71,8 @@ export default {
     async getProductInfo() {
       try {
         const [features, budgetRanges] = await Promise.all([
-          getProductFeatures(),
-          getBudgetRanges()
+          getProductFeatures(this.searchStore.query),
+          getBudgetRanges(this.searchStore.query)
         ])
 
         this.discoveryStore.setFeatures(features)
@@ -85,11 +85,11 @@ export default {
     },
     async getProductResults () {
       try {
-        const results = await getRecommendations({
-          productType: this.searchStore.productType,
-          budgetMin: this.searchStore.budgetMin,
-          budgetMax: this.searchStore.budgetMax
-        })
+        const results = await getRecommendations(
+          this.searchStore.query, 
+          this.searchStore.minPrice, 
+          this.searchStore.maxPrice
+        )
 
         this.resultsStore.setResults(results)
         return true

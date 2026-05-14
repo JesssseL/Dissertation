@@ -1,7 +1,12 @@
 import { apiRequest } from './api/request'
-import { getRecommendationsMock } from './mocks/reccomendationMock'
 
 export function getRecommendations(query, minPrice, maxPrice) {
-    return getRecommendationsMock(query, minPrice, maxPrice)
-    //return apiRequest('reccomendation/results', query)
+    return apiRequest('/api/recommendations', {
+        method: 'POST',
+        body: JSON.stringify({
+            "query": query,
+            "minPrice": minPrice,
+            "maxPrice": maxPrice
+        })
+    })
 }

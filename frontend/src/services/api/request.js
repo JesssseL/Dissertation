@@ -1,10 +1,20 @@
 const API_BASE_URL = 'http://localhost:8000'
 
-export async function apiRequest(endpoint, options = {}, mockResponse) {
-  await new Promise(resolve => setTimeout(resolve, 3000)) //TODO - api call
-
-  console.log('endpoint', `${API_BASE_URL}${endpoint}`)
+export async function apiRequest(endpoint, options = {}) {
+  console.log('endpoint', endpoint)
   console.log('options', options)
 
-  return mockResponse
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    },
+    ...options
+  })
+
+  if (!response.ok) {
+      throw new Error(`API request failed: ${response.status}`)
+  }
+
+  return response.json()
 }
