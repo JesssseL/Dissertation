@@ -9,6 +9,8 @@ class BudgetRange(BaseModel):
 
 class ProductRecommendation(BaseModel):
     name: str
+    brand: str
+    rating: float
     image: str
     features: list[str]
     additionalFeatures: list[str]

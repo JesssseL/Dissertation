@@ -3,7 +3,7 @@ import re
 import json
 from huggingface_hub import InferenceClient
 
-client = InferenceClient(
+ai_client = InferenceClient(
     api_key=settings.huggingface_api_key,
 )
 
@@ -31,9 +31,17 @@ def validate_budget_ranges(ranges):
 
     return True
 
-def generate_ai_budget_ranges(query: str):
+def generate_ai_budget_ranges(query: str, google_budgets: list[str]):
+    formatted_budgets = "\n".join(google_budgets)
     prompt = f"""
         Suggest realistic UK online shopping budget ranges for buying: {query}
+
+        Use these Google Shopping price ranges as the primary source for determining the budget ranges:
+        {formatted_budgets}
+
+        Please use this data to return three budget ranges:
+        - Add a reasonable minimum floor (usually 0)
+        - Add a realisitic upper ceiling (this should extend beyond the highest observed number when an "Over £X" exists)
 
         Return ONLY valid JSON in this format:
         [
@@ -44,8 +52,8 @@ def generate_ai_budget_ranges(query: str):
     """
 
     try:
-        completion = client.chat.completions.create(
-            model="google/gemma-2-2b-it:featherless-ai",
+        completion = ai_client.chat.completions.create(
+            model="openai/gpt-oss-20b:groq",
             messages=[
                 {
                     "role": "user",
@@ -65,3 +73,43 @@ def generate_ai_budget_ranges(query: str):
         print("HF error:", error)
 
     return fallback_ranges()
+
+def generate_ai_search_term(query: str, features: list[str]):
+    formatted_features = "\n".join(features)
+    prompt = f"""
+        Generate an Google Shoppinh Search Query for buying: {query}
+
+        Desired Features:
+        {formatted_features}
+
+        Please use this data to a query that will work well in Google Shopping:
+        - Include the most important features naturally
+        - Avoid unnecessary filler words
+        - Avoid repeating words
+        - Keep the search query under 15 words where possible realisitic upper ceiling (this should extend beyond the highest observed number when an "Over £X" exists)
+
+        Return ONLY the final search query in plain text
+    """
+
+    try:
+        completion = ai_client.chat.completions.create(
+            model="openai/gpt-oss-20b:groq",
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+        )
+
+        generated_text = completion.choices[0].message.content
+        return generated_text
+
+    except Exception as error:
+        print("HF error:", error)
+
+    return query
+
+#TODO
+def generate_ai_products_with_features(feature_list: list[str], product: dict):
+    return product

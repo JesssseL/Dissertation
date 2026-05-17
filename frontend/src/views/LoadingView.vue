@@ -88,9 +88,10 @@ export default {
         const results = await getRecommendations(
           this.searchStore.query, 
           this.searchStore.minPrice, 
-          this.searchStore.maxPrice
+          this.searchStore.maxPrice,
+          this.searchStore.features
         )
-
+        console.log(results)
         this.resultsStore.setResults(results)
         return true
       } catch (error) {
