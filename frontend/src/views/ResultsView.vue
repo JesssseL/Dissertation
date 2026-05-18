@@ -15,7 +15,9 @@
             <ProductCard 
               v-for="product in productSuggestions"
               :key="product.id"
-              :name="product.name" 
+              :name="product.name"
+              :brand="product.brand"
+              :rating="product.rating"
               :image="product.image" 
               :features="product.features" 
               :additionalFeatures="product.additionalFeatures" 

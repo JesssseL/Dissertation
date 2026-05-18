@@ -6,6 +6,13 @@
 
         <div class="card-main">
             <h2 class="card-title"> {{name}} </h2>
+            <div class="card-details"> 
+                <span class="button-icon material-symbols-outlined"> sell </span>
+                <span> {{brand}} </span>
+                <hr/>
+                <span class="button-icon material-symbols-outlined card-star"> star </span>
+                <span class="card-rating"> {{rating}} </span>
+            </div>
 
             <p class="label">Matched Features</p>
             <div class="card-features">
@@ -39,7 +46,7 @@
                     theme="secondary"
                 />
             </div>
-            <AppButton 
+            <LinkButton 
                 text="Go to website"
                 :href="webUrl"
                 leftIcon="open_in_new"
@@ -52,6 +59,7 @@
 
 <script>
 import AppButton from '../elements/AppButton.vue'
+import LinkButton from '../elements/LinkButton.vue'
 import SelectableTag from '../elements/SelectableTag.vue'
 
 export default {
@@ -60,6 +68,14 @@ export default {
     name: {
       type: String,
       default: "Product Name",
+    },
+    brand: {
+        type: String,
+        default: "Brand Name"
+    },
+    rating: {
+        type: Number,
+        default: 0.0
     },
     image: {
       type: String,
@@ -88,6 +104,7 @@ export default {
   },
   components: {
     AppButton,
+    LinkButton,
     SelectableTag,
   },
 };
@@ -157,6 +174,32 @@ export default {
     margin-top: auto;
     gap: var(--gap);
     display: flex;
+}
+
+.card-details {
+    color: var(--grey-text);
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 5px;
+}
+.card-details * {
+    font-size: 0.85rem;
+}
+.card-details hr {
+    height: 100%;
+    background-color: var(--border);
+    border-color:  var(--border);
+}
+
+.card-rating {
+    color: var(--main-text);
+}
+
+.card-star {
+    color: var(--yellow-icon);
+    font-variation-settings:
+    'FILL' 1;
 }
 
 .label {

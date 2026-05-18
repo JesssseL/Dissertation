@@ -24,8 +24,9 @@ def generate_recommendations(request):
     if request.features:
         search_term = generate_ai_search_term(request.query, request.features)
     else:
-        search_term = request.query
+        search_term = f"{request.query} between £{request.minPrice} and £{request.maxPrice}"
+
     # Products are returned
-    search_products = get_product_list(request.query, request.minPrice, request.maxPrice)
+    search_products = get_product_list(search_term, request.minPrice, request.maxPrice)
     # AI adds feature lists to products, stops once there is 3
-    return search_products # TODO generate_ai_products_with_features(search_products)
+    return search_products[:3] # TODO generate_ai_products_with_features(search_products)

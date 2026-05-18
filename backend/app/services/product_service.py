@@ -70,10 +70,10 @@ def get_product_budget_ranges(query: str):
     })
     filters = results.get("filters", [])
     price_ranges = extract_filter_by_type("price_range", filters)
-    print("Prices:", price_ranges)
     return price_ranges 
 
 def get_product_list(query: str, min_price: float, max_price: float):
+    print("query", query)
     results = serpapi_client.search({
       "engine": "google_shopping_light",
       "google_domain": "google.co.uk",
@@ -83,10 +83,11 @@ def get_product_list(query: str, min_price: float, max_price: float):
       "location": "United Kingdom"
     })
     shopping_results = results.get("shopping_results", [])
-    print("shopping_results:", shopping_results)
+
     filtered_products = []
     for item in shopping_results:
         price = item.get("extracted_price")
+
         if price is None:
             continue
         if price < min_price or price > max_price:
@@ -96,20 +97,44 @@ def get_product_list(query: str, min_price: float, max_price: float):
         if title is None:
             continue
 
+        brand = item.get("source", "Online retailer")
+        if "Amazon" in brand:
+            brand = "Amazon"
+
+        rating = item.get("rating", 0)
+        reviews = item.get("reviews", 0)
+        additional_features = item.get("extensions", [])
+
+        # Simple product quality score
+        score = (
+            rating * 10 +
+            min(reviews, 200) +
+            len(additional_features)
+        )
+
         filtered_products.append({
             "name": title,
-            "brand": item.get("source", "Online retailer"),
-            "rating": item.get('rating', 0),
+            "brand": brand,
+            "rating": rating,
             "image": item.get("thumbnail", ""),
             "features": [
-                item.get("delivery", "Delivery information unavailable"),
-                item.get("snippet", "Snippet unavailable"),
-                item.get("snippet_highlighted_words", "snippet_highlighted_words unavailable"),
-                item.get("tagline", "tagline unavailable")
+                feature for feature in [
+                    item.get("delivery"),
+                    item.get("snippet"),
+                    item.get("snippet_highlighted_words"),
+                    item.get("tagline")
+                ]
+                if feature
             ],
             "additionalFeatures": item.get("extensions", []),
             "webUrl": item.get("product_link", ""),
-            "price": price
+            "price": price,
+            "RANKING_SCORE": score
         })
 
-    return filtered_products
+        filtered_products.sort(
+            key=lambda product: product["RANKING_SCORE"],
+            reverse=True
+        )
+        
+    return filtered_products[:5]
