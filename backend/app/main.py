@@ -8,6 +8,7 @@ from app.models.requests import (
 from app.models.response import (
     BudgetRange,
     ProductRecommendation,
+    EnhancedQuery
 )
 from app.services.search_service import (
     generate_budget_ranges,
@@ -46,10 +47,67 @@ def read_root():
 def get_budget_ranges(request: BudgetRangesRequest):
     return generate_budget_ranges(request)
 
+@app.post("/api/recommendations", response_model=list[ProductRecommendation])
+def create_recommendations(request: RecommendationsRequest):
+    return generate_recommendations(request)
+
+# ------------------------------------------
+# Intent Specific - Questions
+# ------------------------------------------
+from app.question.ai_service import (
+    generate_ai_questions,
+    generate_ai_search_term_from_questions
+)
+from app.question.models import (
+    QuestionRequest,
+    AnswerRequest,
+    QuestionAndExample
+    )
+@app.post("/api/questions", response_model=list[QuestionAndExample])
+def get_product_questions(request: QuestionRequest):
+    return generate_ai_questions(request)
+
+@app.post("/api/answers", response_model=EnhancedQuery)
+def get_query_from_question_answers(request: AnswerRequest):
+    return generate_ai_search_term_from_questions(request)
+
+# Process is questions generated
+# Answered questions becomes fed into gpt
+# spits out new better query
+# we use that as a base
+
+# ------------------------------------------
+# Intent Specific - Features
+# ------------------------------------------
 @app.post("/api/features", response_model=list[str])
 def get_product_feature_list(request: ProductFeaturesRequest):
     return generate_product_feature_list(request)
 
-@app.post("/api/recommendations", response_model=list[ProductRecommendation])
-def create_recommendations(request: RecommendationsRequest):
-    return generate_recommendations(request)
+# ------------------------------------------
+# Intent Specific - Photos
+# ------------------------------------------
+from app.photos.product_service import (
+    get_product_photos
+)
+from app.photos.ai_service import (
+    generate_ai_feature_based_query
+)
+from app.photos.models import (
+    ImageRequest,
+    SelectedProductsRequest,
+    ProductWithImage
+)
+
+@app.post("/api/photos", response_model=list[ProductWithImage])
+def get_product_questions(request: ImageRequest):
+    return generate_ai_questions(request)
+
+@app.post("/api/photo-features", response_model=EnhancedQuery)
+def get_query_from_question_answers(request: SelectedProductsRequest):
+    return generate_ai_feature_based_query(request)
+# Process is photos generated
+# Selected photos have advanced immersive api call
+# Feature list extracted
+# Extracted feature list becomes fed into gpt
+# spits out new better query
+# we use that as a base

@@ -6,7 +6,6 @@ class BudgetRange(BaseModel):
     min: float
     max: float
 
-
 class ProductRecommendation(BaseModel):
     name: str
     brand: str
@@ -16,3 +15,6 @@ class ProductRecommendation(BaseModel):
     additionalFeatures: list[str]
     webUrl: str
     price: float
+
+class EnhancedQuery(BaseModel):
+    query: str
