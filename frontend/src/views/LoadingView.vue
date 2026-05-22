@@ -36,7 +36,11 @@
 import { useSearchStore } from '../stores/searchStore'
 import { useResultsStore } from '../stores/resultsStore'
 import { useDiscoveryStore } from '../stores/discoveryStore'
-import { getProductFeatures, getBudgetRanges } from '../services/productService'
+import { 
+  getProductPhotos, 
+  getProductQuestions, 
+  getProductFeatures, 
+  getBudgetRanges } from '../services/productService'
 import { getRecommendations } from '../services/reccomendationService'
 
 
@@ -56,8 +60,24 @@ export default {
   },
   async mounted() {
     if (this.loadingType === 'intent'){
-      await this.getProductInfo()
-      this.$router.push('/budget') //TODO - reroute to intent specification
+      let routerLocation = '/budget'
+      switch (this.discoveryStore.intentStyle) {
+        case "Questions":
+          await this.getProductInfoWithQuestions()
+          routerLocation = '/questions'
+          break;
+        case "Photos":
+          await this.getProductInfoWithPhotos()
+          routerLocation = '/styles'
+          break;
+        case "Features":
+          await this.getProductInfoWithFeatures()
+          routerLocation = '/features'
+          break;
+        default:
+          break;
+      }
+      this.$router.push(routerLocation)
     }
     else if (this.loadingType === 'results'){
       await this.getProductResults()
@@ -68,7 +88,37 @@ export default {
     }
   },
   methods: {
-    async getProductInfo() {
+    async getProductInfoWithPhotos() {
+      try {
+        const [photos, budgetRanges] = await Promise.all([
+          getProductPhotos(this.searchStore.query),
+          getBudgetRanges(this.searchStore.query)
+        ])
+
+        this.discoveryStore.setPhotos(photos)
+        this.discoveryStore.setBudgetRanges(budgetRanges)
+        return true
+      } catch (error) {
+        console.error('Failed to load product info:', error)
+        return false
+      }
+    },
+    async getProductInfoWithQuestions() {
+      try {
+        const [questions, budgetRanges] = await Promise.all([
+          getProductQuestions(this.searchStore.query),
+          getBudgetRanges(this.searchStore.query)
+        ])
+
+        this.discoveryStore.setQuestions(questions)
+        this.discoveryStore.setBudgetRanges(budgetRanges)
+        return true
+      } catch (error) {
+        console.error('Failed to load product info:', error)
+        return false
+      }
+    },
+    async getProductInfoWithFeatures() {
       try {
         const [features, budgetRanges] = await Promise.all([
           getProductFeatures(this.searchStore.query),
