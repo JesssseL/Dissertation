@@ -111,3 +111,10 @@ h1 * {
   line-height: 1;
   letter-spacing: 0.02em;
 }
+
+textarea {
+  resize: none;
+  font-family: inherit;
+  padding: 5px;
+  height: 72px;
+}

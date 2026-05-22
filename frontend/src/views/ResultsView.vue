@@ -57,7 +57,6 @@ import { useResultsStore } from '../stores/resultsStore'
 
 export default {
   name: "ResultsView",
-  props: {},
   components: {
     ProductCard,
     AppButton,
@@ -96,7 +95,8 @@ export default {
       this.$router.push('/')
     },
     regenerateSearch() {
-      this.$router.push('/loading')
+      console.log('features', this.searchStore.features)
+      this.$router.push('/loading/results')
     },
     refineSearch() {
       this.$router.push('/budget')

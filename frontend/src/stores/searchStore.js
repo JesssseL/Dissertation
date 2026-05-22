@@ -10,6 +10,7 @@ export const useSearchStore = defineStore('search', () => {
   const minPrice = ref(null)
   const maxPrice = ref(null)
   const features = ref([])
+  const questionsAndAnswers = ref([]) //Intent specific
 
   const hasQuery = computed(() => query.value.trim().length > 0)
   const hasBudget = computed(() => minPrice.value !== null && maxPrice.value !== null)
@@ -20,12 +21,14 @@ export const useSearchStore = defineStore('search', () => {
   function setFeatures(value) { features.value = value }
   function addFeature(value) { features.value.push(value) }
   function removeFeature(value) { features.value.splice(features.value.indexOf(value), 1) }
+  function addQuestionsAndAnswers(value) { questionsAndAnswers.value = value }  //Intent specific
 
   function clearStore() {
     query.value = ''
     minPrice.value = null
     maxPrice.value = null
     features.value = []
+    questionsAndAnswers.value = []
   }
 
   return {
@@ -33,6 +36,7 @@ export const useSearchStore = defineStore('search', () => {
     minPrice,
     maxPrice,
     features,
+    questionsAndAnswers,  //Intent specific
     hasQuery,
     hasBudget,
     setQuery,
@@ -41,6 +45,7 @@ export const useSearchStore = defineStore('search', () => {
     setFeatures,
     addFeature,
     removeFeature,
+    addQuestionsAndAnswers,  //Intent specific
     clearStore
   }
 })
