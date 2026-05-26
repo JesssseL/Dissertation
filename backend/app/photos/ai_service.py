@@ -1,11 +1,6 @@
-from app.config import settings
 import re
 import json
-from huggingface_hub import InferenceClient
-
-ai_client = InferenceClient(
-    api_key=settings.huggingface_api_key,
-)
+from app.clients.huggingface_client import generate_chat_completion
 
 def generate_ai_feature_based_query(query: str, features: list[str]):
     formatted_features = "\n".join(features)
@@ -26,17 +21,7 @@ def generate_ai_feature_based_query(query: str, features: list[str]):
     """
 
     try:
-        completion = ai_client.chat.completions.create(
-            model="openai/gpt-oss-20b:groq",
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-        )
-
-        generated_text = completion.choices[0].message.content
+        generated_text = generate_chat_completion(prompt)
         return generated_text
 
     except Exception as error:

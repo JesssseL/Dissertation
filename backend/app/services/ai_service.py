@@ -1,11 +1,6 @@
-from app.config import settings
 import re
 import json
-from huggingface_hub import InferenceClient
-
-ai_client = InferenceClient(
-    api_key=settings.huggingface_api_key,
-)
+from app.clients.huggingface_client import generate_chat_completion
 
 def fallback_ranges():
     return [
@@ -52,17 +47,7 @@ def generate_ai_budget_ranges(query: str, google_budgets: list[str]):
     """
 
     try:
-        completion = ai_client.chat.completions.create(
-            model="openai/gpt-oss-20b:groq",
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-        )
-
-        generated_text = completion.choices[0].message.content
+        generated_text = generate_chat_completion(prompt)
         json_text = re.search(r"\[.*\]", generated_text, re.DOTALL).group(0)
         json_ranges = json.loads(json_text)
 
@@ -77,7 +62,7 @@ def generate_ai_budget_ranges(query: str, google_budgets: list[str]):
 def generate_ai_search_term(query: str, features: list[str]):
     formatted_features = "\n".join(features)
     prompt = f"""
-        Generate an Google Shoppinh Search Query for buying: {query}
+        Generate an Google Shopping Search Query for buying: {query}
 
         Desired Features:
         {formatted_features}
@@ -92,24 +77,10 @@ def generate_ai_search_term(query: str, features: list[str]):
     """
 
     try:
-        completion = ai_client.chat.completions.create(
-            model="openai/gpt-oss-20b:groq",
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-        )
-
-        generated_text = completion.choices[0].message.content
+        generated_text = generate_chat_completion(prompt)
         return generated_text
 
     except Exception as error:
         print("HF error:", error)
 
     return query
-
-#TODO
-def generate_ai_products_with_features(feature_list: list[str], product: dict):
-    return product

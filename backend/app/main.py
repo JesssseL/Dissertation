@@ -42,7 +42,6 @@ app.add_middleware(
 def read_root():
     return {"Hello": "World"}
 
-
 @app.post("/api/budget-ranges", response_model=list[BudgetRange])
 def get_budget_ranges(request: BudgetRangesRequest):
     return generate_budget_ranges(request)

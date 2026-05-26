@@ -1,9 +1,4 @@
-from app.config import settings
-import serpapi
-
-serpapi_client = serpapi.Client(
-    api_key=settings.serpapi_api_key
-)
+from app.clients.serpapi_client import search_google_shopping
 
 def format_product(item: dict):
     title = item.get("title")
@@ -19,15 +14,7 @@ def format_product(item: dict):
     }
 
 def get_product_photos(query: str):
-    print("PHOTO QUERY RECEIVED INSIDE FUNCTION:", query)
-    results = serpapi_client.search({
-      "engine": "google_shopping_light",
-      "google_domain": "google.co.uk",
-      "q": query,
-      "hl": "en",
-      "gl": "uk",
-      "location": "United Kingdom"
-    })
+    results = search_google_shopping(query)
     shopping_results = results.get("shopping_results", [])
 
     formatted_products = []

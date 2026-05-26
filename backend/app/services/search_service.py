@@ -1,8 +1,7 @@
 from pyexpat import features
 from app.services.ai_service import (
     generate_ai_budget_ranges,
-    generate_ai_search_term,
-    generate_ai_products_with_features
+    generate_ai_search_term
 )
 from app.services.product_service import (
     get_product_feature_list,
@@ -23,16 +22,13 @@ def generate_budget_ranges(request):
 
 def generate_recommendations(request):
     # AI used to turn features and query into a new search term when needed
-    print(request.features)
     if request.features:
         search_term = generate_ai_search_term(request.query, request.features)
     else:
         search_term = request.query
-    print(search_term)
     # Products are returned
     search_products = get_product_list(
         f"{search_term} between £{request.minPrice} and £{request.maxPrice}", 
         request.minPrice, 
         request.maxPrice)
-    # AI adds feature lists to products, stops once there is 3
-    return search_products # TODO generate_ai_products_with_features(search_products)
+    return search_products

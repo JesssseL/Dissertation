@@ -23,7 +23,7 @@ const routes = [
     component: BudgetView,
     meta: { 
       requiresQuery: true,
-     }
+    }
   },
   {
     path: '/results',
@@ -61,17 +61,26 @@ const routes = [
   {
     path: '/features',
     name: 'Feature',
-    component: FeatureView
+    component: FeatureView,
+    meta: { 
+      requiresQuery: true,
+    }
   },
   {
     path: '/questions',
     name: 'Questions',
-    component: QuestionsView
+    component: QuestionsView,
+    meta: { 
+      requiresQuery: true,
+    }
   },
   {
     path: '/styles',
     name: 'Styles',
-    component: StylesView
+    component: StylesView,
+    meta: { 
+      requiresQuery: true,
+    }
   },
   {
     path: '/:pathMatch(.*)*',

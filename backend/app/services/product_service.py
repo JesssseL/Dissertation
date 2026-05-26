@@ -1,10 +1,8 @@
-from app.config import settings
-import random
-import serpapi
-
-serpapi_client = serpapi.Client(
-    api_key=settings.serpapi_api_key
+from app.clients.serpapi_client import (
+    search_google_shopping,
+    search_immersive_product
 )
+import random
 
 def fallback_ranges(query: str, min_price: float, max_price: float):
     return [
@@ -47,27 +45,13 @@ def extract_filter_by_type(input_type: str, filters: list[dict]):
     return options
 
 def get_product_feature_list(query: str):
-    results = serpapi_client.search({
-      "engine": "google_shopping_light",
-      "google_domain": "google.co.uk",
-      "q": query,
-      "hl": "en",
-      "gl": "uk",
-      "location": "United Kingdom"
-    })
+    results = search_google_shopping(query)
     filters = results.get("filters", [])
 
     return extract_filter_by_type("checkbox", filters)
 
 def get_product_budget_ranges(query: str):
-    results = serpapi_client.search({
-      "engine": "google_shopping_light",
-      "google_domain": "google.co.uk",
-      "q": query,
-      "hl": "en",
-      "gl": "uk",
-      "location": "United Kingdom"
-    })
+    results = search_google_shopping(query)
     filters = results.get("filters", [])
     price_ranges = extract_filter_by_type("price_range", filters)
     return price_ranges 
@@ -121,10 +105,7 @@ def format_product(item: dict, min_price: float, max_price: float):
 def extract_immersive_features(page_token: str):
     if not page_token:
         return []
-    results = serpapi_client.search({
-        "engine": "google_immersive_product",
-        "page_token": page_token
-    })
+    results = search_immersive_product(page_token)
 
     feature_data = (
         results
@@ -156,14 +137,7 @@ def extract_immersive_features(page_token: str):
     return extracted_features
 
 def get_product_list(query: str, min_price: float, max_price: float):
-    results = serpapi_client.search({
-      "engine": "google_shopping_light",
-      "google_domain": "google.co.uk",
-      "q": query,
-      "hl": "en",
-      "gl": "uk",
-      "location": "United Kingdom"
-    })
+    results = search_google_shopping(query)
     shopping_results = results.get("shopping_results", [])
 
     filtered_products = []

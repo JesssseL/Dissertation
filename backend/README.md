@@ -11,6 +11,7 @@ This is the backend of the AI-Assisted Shopping System being developed as part o
 ## Project Structure
 ```
 app/
+├── clients/		   Connections to external API clients
 ├── models/			   Request and response models
 ├── services/          API logic and external services
 ├── config.py          Configuration and environment settings
@@ -36,3 +37,9 @@ fastapi dev
 
 Interactive documentation application will normally run at:
 http://localhost:8000/docs
+
+## Run Production Version
+```
+.venv\Scripts\Activate.ps1
+fastapi run
+```
