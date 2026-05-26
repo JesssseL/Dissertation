@@ -2,7 +2,7 @@
     <div class="style container">
         <div class="header">
           <h1> Pick styles you like </h1>
-          <h2> Subheading Subheading </h2>
+          <h2> Select Products you are drawn too </h2>
         </div>
 
         <div class="style_options">
@@ -15,12 +15,19 @@
             />
         </div>
 
-        <AppButton 
-          text="Next"
-          :disabled="selectedPhotos.length === 0"
-          rightIcon="arrow_forward"
-          @click="saveSelected"
-        />
+        <div class="footer">
+          <span></span>
+          <span class="selected-text">
+            {{ selectedPhotos.length }}
+            Selected
+          </span>
+          <AppButton 
+            text="Next"
+            :disabled="selectedPhotos.length === 0"
+            rightIcon="arrow_forward"
+            @click="saveSelected"
+          />
+        </div>
     </div>
 </template>
 
@@ -90,8 +97,22 @@ export default {
   width: 100%;
   height: 80%;
 }
-button {
+.footer {
   margin-top: auto;
-  align-self: flex-end;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+  text-align: center;
+  justify-content: center;
+}
+button {
+  margin-left: auto;
+}
+.selected-text {
+  color: var(--grey-text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
