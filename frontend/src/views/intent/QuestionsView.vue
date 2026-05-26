@@ -75,7 +75,11 @@ export default {
   },
   methods: {
     saveFeatures() {
-      this.searchStore.addQuestionsAndAnswers(this.questions)
+      let answeredQuestions = this.questions.map(question => ({
+        question: question.query,
+        answer: question.answer
+      }))
+      this.searchStore.addQuestionsAndAnswers(answeredQuestions)
       this.$router.push('/budget')
     }
   },

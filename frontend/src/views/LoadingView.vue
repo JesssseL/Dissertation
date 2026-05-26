@@ -41,7 +41,9 @@ import {
   getProductQuestions, 
   getProductFeatures, 
   getBudgetRanges } from '../services/productService'
-import { getRecommendations } from '../services/reccomendationService'
+import { 
+  getNewQueryFromQuestionAnswers,
+  getRecommendations } from '../services/reccomendationService'
 
 
 export default {
@@ -94,7 +96,7 @@ export default {
           getProductPhotos(this.searchStore.query),
           getBudgetRanges(this.searchStore.query)
         ])
-        console.log('oaded', photos)
+        console.log('loaded', photos)
         this.discoveryStore.setPhotos(photos)
         this.discoveryStore.setBudgetRanges(budgetRanges)
         return true
@@ -135,6 +137,22 @@ export default {
     },
     async getProductResults () {
       try {
+        switch (this.discoveryStore.intentStyle) {
+          case "Questions":
+            const response = await getNewQueryFromQuestionAnswers(
+              this.searchStore.query,
+              this.searchStore.questionsAndAnswers
+            )
+
+            this.searchStore.query = response.query
+            break;
+          case "Photos":
+            await this.getProductInfoWithPhotos()
+            routerLocation = '/styles'
+            break;
+          default:
+            break;
+        }
         const results = await getRecommendations(
           this.searchStore.query, 
           this.searchStore.minPrice, 

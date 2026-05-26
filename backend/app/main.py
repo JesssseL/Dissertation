@@ -68,7 +68,14 @@ def get_product_questions(request: QuestionRequest):
 
 @app.post("/api/answers", response_model=EnhancedQuery)
 def get_query_from_question_answers(request: AnswerRequest):
-    return generate_ai_search_term_from_questions(request)
+    result = generate_ai_search_term_from_questions(
+        request.query,
+        request.questionsAndAnswers
+    )
+
+    return {
+        "query": result
+    }
 
 # Process is questions generated
 # Answered questions becomes fed into gpt
@@ -99,7 +106,6 @@ from app.photos.models import (
 
 @app.post("/api/photos", response_model=list[ProductWithImage])
 def get_product_images(request: ImageRequest):
-    print("PHOTO QUERY RECEIVED:", request.query)
     return get_product_photos(request.query)
 
 @app.post("/api/photo-features", response_model=EnhancedQuery)

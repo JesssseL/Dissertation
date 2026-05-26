@@ -67,12 +67,12 @@ def generate_ai_questions(query: str):
 
     return fallback_questions()
 
-def generate_ai_search_term_from_questions(query: str, questionsAndAnswers: list[dict]):
+def generate_ai_search_term_from_questions(query: str, questionsAndAnswers):
     formatted_questions = "\n".join(
         [
-            f"Question: {item['question']}\nAnswer: {item['answer']}"
+            f"Question: {item.question}\nAnswer: {item.answer}"
             for item in questionsAndAnswers
-            if item.get("answer")
+            if item.answer
         ]
     )
     prompt = f"""

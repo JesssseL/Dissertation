@@ -10,12 +10,13 @@
                 v-for="feature in discoveryFeatures"
                 :key="feature"
                 :label="feature"
+                @change="addSearchFeature"
             />
         </div>
 
         <AppButton 
           text="Next"
-          :disabled="searchFeatures == []"
+          :disabled="searchFeatures.length === 0"
           rightIcon="arrow_forward"
           @click="saveFeatures"
         />
@@ -43,7 +44,7 @@ export default {
     }
   },
   mounted() {
-    this.discoveryFeatures = [...this.discoveryStore.commonFeatures]
+    this.discoveryFeatures = [...this.discoveryStore.features]
     this.searchFeatures = [...this.searchStore.features]
   },
   methods: {
