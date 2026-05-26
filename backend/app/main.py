@@ -99,11 +99,12 @@ from app.photos.models import (
 )
 
 @app.post("/api/photos", response_model=list[ProductWithImage])
-def get_product_questions(request: ImageRequest):
-    return generate_ai_questions(request)
+def get_product_images(request: ImageRequest):
+    print("PHOTO QUERY RECEIVED:", request.query)
+    return get_product_photos(request.query)
 
 @app.post("/api/photo-features", response_model=EnhancedQuery)
-def get_query_from_question_answers(request: SelectedProductsRequest):
+def get_query_from_selected_photos(request: SelectedProductsRequest):
     return generate_ai_feature_based_query(request)
 # Process is photos generated
 # Selected photos have advanced immersive api call

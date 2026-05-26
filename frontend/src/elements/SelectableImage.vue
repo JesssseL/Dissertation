@@ -15,6 +15,7 @@
 export default {
   props: {
     image: String,
+    productPageToken: String,
     checked: {
       type: Boolean,
       default: false,
@@ -22,8 +23,8 @@ export default {
   },
   methods: {
     emitChange() {
-        this.$emit("change", {
-            label: this.label,
+        this.$emit("selectImage", {
+            productPageToken: this.productPageToken,
             checked: event.target.checked,
         });
     }
@@ -33,27 +34,27 @@ export default {
 
 <style>
 .selectable_image_element {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    position: relative;
-    overflow: clip;
     padding: 3px;
-    border-radius: 23px;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    height: 100%;
 }
 
 .selectable_image_element img {
     object-fit: cover;
     width: 100%;
     height: 100%;
-    border-radius: 20px;
+    border-radius: var(--border-radius);
 }
 
 .selectable_image_element label {
     position: absolute;
     right: 10px;
     top: 10px;
-    background: var(--green);
+    background: var(--primary);
     padding: 5px;
     border-radius: 100%;
     height: 25px;
@@ -66,7 +67,7 @@ export default {
 }
 
 .selectable_image_element:has(input[type="checkbox"]:checked) {
-    background-color: var(--green);
+    background-color: var(--primary);
 }
 .selectable_image_element:has(input[type="checkbox"]:checked) label {
     opacity: 1;

@@ -7,7 +7,7 @@
 
         <div class="feature_container">
             <SelectableTag 
-                v-for="feature in features"
+                v-for="feature in discoveryFeatures"
                 :key="feature"
                 :label="feature"
             />
@@ -15,7 +15,7 @@
 
         <AppButton 
           text="Next"
-          :disabled="selectedMin === null || selectedMax === null"
+          :disabled="searchFeatures == []"
           rightIcon="arrow_forward"
           @click="saveFeatures"
         />
@@ -38,11 +38,12 @@ export default {
     return {
       searchStore: useSearchStore(),
       discoveryStore: useDiscoveryStore(),
+      discoveryFeatures: [],
       searchFeatures: [],
     }
   },
   mounted() {
-    this.discoveryFeatures = [...this.discoveryStore.features]
+    this.discoveryFeatures = [...this.discoveryStore.commonFeatures]
     this.searchFeatures = [...this.searchStore.features]
   },
   methods: {

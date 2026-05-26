@@ -12,7 +12,9 @@ from app.services.product_service import (
 
 def generate_product_feature_list(request):
     # SerpAPI request with query is cached, no extra tokens are used seperating these two
-    return get_product_feature_list(request.query)
+    results = get_product_feature_list(request.query)
+    print(results)
+    return results
 
 def generate_budget_ranges(request):
     # SerpAPI request with query is cached, no extra tokens are used seperating these two

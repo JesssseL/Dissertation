@@ -15,10 +15,11 @@ def format_product(item: dict):
     return {
         "name": title,
         "image": thumbnail,
-        "PRODUCT_PAGE_TOKEN": page_token,
+        "productPageToken": page_token,
     }
 
 def get_product_photos(query: str):
+    print("PHOTO QUERY RECEIVED INSIDE FUNCTION:", query)
     results = serpapi_client.search({
       "engine": "google_shopping_light",
       "google_domain": "google.co.uk",

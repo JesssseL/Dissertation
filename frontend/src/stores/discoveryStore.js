@@ -19,7 +19,7 @@ export const useDiscoveryStore = defineStore('discovery', () => {
   function setBudgetRanges(value) { budgetRanges.value = value }
   function setFeatures(value) { commonFeatures.value = value }
   function setQuestions(value) { questions.value = value }
-  function setPhotos(value) { photos.value - value }
+  function setPhotos(value) { photos.value = value }
 
   function clearStore() {
     commonFeatures.value = []

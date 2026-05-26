@@ -94,7 +94,7 @@ export default {
           getProductPhotos(this.searchStore.query),
           getBudgetRanges(this.searchStore.query)
         ])
-
+        console.log('oaded', photos)
         this.discoveryStore.setPhotos(photos)
         this.discoveryStore.setBudgetRanges(budgetRanges)
         return true
