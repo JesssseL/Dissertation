@@ -43,6 +43,7 @@ import {
   getBudgetRanges } from '../services/productService'
 import { 
   getNewQueryFromQuestionAnswers,
+  getNewQueryFromPhotosSelected,
   getRecommendations } from '../services/reccomendationService'
 
 
@@ -139,16 +140,20 @@ export default {
       try {
         switch (this.discoveryStore.intentStyle) {
           case "Questions":
-            const response = await getNewQueryFromQuestionAnswers(
+            let questionsResponse = await getNewQueryFromQuestionAnswers(
               this.searchStore.query,
               this.searchStore.questionsAndAnswers
             )
 
-            this.searchStore.query = response.query
+            this.searchStore.query = questionsResponse.query
             break;
           case "Photos":
-            await this.getProductInfoWithPhotos()
-            routerLocation = '/styles'
+            let photoResponse = await getNewQueryFromPhotosSelected(
+              this.searchStore.query,
+              this.searchStore.photos
+            )
+
+            this.searchStore.query = photoResponse.query
             break;
           default:
             break;

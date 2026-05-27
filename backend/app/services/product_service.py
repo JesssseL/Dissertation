@@ -123,7 +123,7 @@ def extract_immersive_features(page_token: str):
         if value.lower() in ["no", "false", "none"]:
             continue
         if value.lower() in ["yes", "true"]:
-            extracted_features.append(title)
+            value = title
             continue
         if value.replace(".", "", 1).isdigit():
             extracted_features.append(f"{title}: {value}")
@@ -131,6 +131,8 @@ def extract_immersive_features(page_token: str):
         if "," in value:
             values = [part.strip() for part in value.split(",") if part.strip()]
             extracted_features.extend(values)
+            continue
+        if value.lower() in extracted_features:
             continue
         extracted_features.append(value)
 

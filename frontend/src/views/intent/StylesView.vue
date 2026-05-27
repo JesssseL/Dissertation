@@ -75,6 +75,7 @@ export default {
       console.log(this.selectedPhotos)
     },
     saveSelected() {
+      console.log(this.selectedPhotos)
       this.searchStore.addPhotos(this.selectedPhotos)
       this.$router.push('/budget')
     },

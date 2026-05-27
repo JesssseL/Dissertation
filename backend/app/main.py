@@ -68,19 +68,8 @@ def get_product_questions(request: QuestionRequest):
 
 @app.post("/api/answers", response_model=EnhancedQuery)
 def get_query_from_question_answers(request: AnswerRequest):
-    result = generate_ai_search_term_from_questions(
-        request.query,
-        request.questionsAndAnswers
-    )
-
-    return {
-        "query": result
-    }
-
-# Process is questions generated
-# Answered questions becomes fed into gpt
-# spits out new better query
-# we use that as a base
+    result = generate_ai_search_term_from_questions(request.query, request.questionsAndAnswers)
+    return { "query": result }
 
 # ------------------------------------------
 # Intent Specific - Features
@@ -93,7 +82,8 @@ def get_product_feature_list(request: ProductFeaturesRequest):
 # Intent Specific - Photos
 # ------------------------------------------
 from app.photos.product_service import (
-    get_product_photos
+    get_product_photos,
+    get_product_features
 )
 from app.photos.ai_service import (
     generate_ai_feature_based_query
@@ -110,7 +100,14 @@ def get_product_images(request: ImageRequest):
 
 @app.post("/api/photo-features", response_model=EnhancedQuery)
 def get_query_from_selected_photos(request: SelectedProductsRequest):
-    return generate_ai_feature_based_query(request)
+    photo_features = get_product_features(request.products)
+    result = generate_ai_feature_based_query(
+        request.query,
+        photo_features.get("productNames", []),
+        photo_features.get("features", []),
+        photo_features.get("descriptions", [])
+    )
+    return { "query": result }
 # Process is photos generated
 # Selected photos have advanced immersive api call
 # Feature list extracted

@@ -44,7 +44,7 @@ export default {
 }
 
 .selectable_image_element img {
-    object-fit: cover;
+    object-fit: contain;
     width: 100%;
     height: 100%;
     border-radius: var(--border-radius);

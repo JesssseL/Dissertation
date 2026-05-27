@@ -23,7 +23,14 @@ export function getNewQueryFromQuestionAnswers(query, questionsAndAnswers) {
         })
     })
 }
-// questionsAndAnswers should be list:
-// class AnsweredQuestion(BaseModel):
-//     question: str
-//     answer: str
+
+export function getNewQueryFromPhotosSelected(query, photos) {
+    console.log('api photos', query, photos)
+    return apiRequest('/api/photo-features', {
+        method: 'POST',
+        body: JSON.stringify({
+            "query": query,
+            "products": photos,
+        })
+    })
+}
