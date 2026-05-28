@@ -86,15 +86,7 @@ def format_product(item: dict, min_price: float, max_price: float):
         "brand": brand,
         "rating": rating,
         "image": item.get("thumbnail", ""),
-        "features": [
-            feature for feature in [
-                item.get("delivery"),
-                item.get("snippet"),
-                item.get("snippet_highlighted_words"),
-                item.get("tagline")
-            ]
-            if feature
-        ],
+        "features": [],
         "additionalFeatures": item.get("extensions", []),
         "webUrl": item.get("product_link", ""),
         "price": price,

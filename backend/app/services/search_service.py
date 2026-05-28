@@ -1,7 +1,8 @@
 from pyexpat import features
 from app.services.ai_service import (
     generate_ai_budget_ranges,
-    generate_ai_search_term
+    generate_ai_search_term,
+    generate_ai_relevant_features
 )
 from app.services.product_service import (
     get_product_feature_list,
@@ -30,4 +31,31 @@ def generate_recommendations(request):
         f"{search_term} between £{request.minPrice} and £{request.maxPrice}", 
         request.minPrice, 
         request.maxPrice)
+
+    all_features = []
+    for product in search_products:
+        all_features.extend(product.get("additionalFeatures", []))
+
+    relevant_features = generate_ai_relevant_features(search_term, all_features)
+    lower_relevant_features = { feature.lower() for feature in relevant_features}
+    print("RF", relevant_features)
+
+    # Move relevant features from additionalFeatures into features
+    for product in search_products:
+        product_features = product.get("additionalFeatures", [])
+        relevant = []
+        additional = []
+
+        for feature in product_features:
+            feature_lower = feature.lower()
+            matched = any(relevant_feature in feature_lower for relevant_feature in lower_relevant_features)
+            if matched:
+                relevant.append(feature)
+            else:
+                additional.append(feature)
+
+        product["features"] = list(dict.fromkeys(relevant))
+        product["additionalFeatures"] = list(dict.fromkeys(additional))
+
+
     return search_products

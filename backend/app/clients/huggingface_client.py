@@ -15,5 +15,4 @@ def generate_chat_completion(prompt: str):
             }
         ],
     )
-
     return completion.choices[0].message.content

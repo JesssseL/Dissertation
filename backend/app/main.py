@@ -46,7 +46,8 @@ def read_root():
 def get_budget_ranges(request: BudgetRangesRequest):
     return generate_budget_ranges(request)
 
-@app.post("/api/recommendations", response_model=list[ProductRecommendation])
+#@app.post("/api/recommendations", response_model=list[ProductRecommendation])
+@app.post("/api/recommendations")
 def create_recommendations(request: RecommendationsRequest):
     return generate_recommendations(request)
 
@@ -108,9 +109,3 @@ def get_query_from_selected_photos(request: SelectedProductsRequest):
         photo_features.get("descriptions", [])
     )
     return { "query": result }
-# Process is photos generated
-# Selected photos have advanced immersive api call
-# Feature list extracted
-# Extracted feature list becomes fed into gpt
-# spits out new better query
-# we use that as a base

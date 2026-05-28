@@ -9,6 +9,22 @@ def fallback_ranges():
         {"label": "High", "min": 200, "max": 400},
     ]
 
+def fallback_relevant_features(query: str, features: list[str]):
+    query_words = {
+        word.lower()
+        for word in query.split()
+        if len(word) > 2
+    }
+
+    matched_features = []
+    for feature in features:
+        feature_lower = feature.lower()
+
+        if any(word in feature_lower for word in query_words):
+            matched_features.append(feature)
+
+    return matched_features
+
 def validate_budget_ranges(ranges):
     if len(ranges) != 3:
         return False
@@ -84,3 +100,44 @@ def generate_ai_search_term(query: str, features: list[str]):
         print("HF error:", error)
 
     return query
+
+def generate_ai_relevant_features(query: str, features: list[str]):
+    formatted_features = "\n".join(features)
+    prompt = f"""
+        Identify the most relevant product features for buying: {query}
+
+        Product Features:
+        {formatted_features}
+
+        Select ONLY the features from the provided list that are most relevant to the customer's search intent.
+        - ONLY return features that already exist in the provided list
+        - Do NOT rename, summarise, combine, or simplify features
+        - Do NOT invent new features
+        - Prioritise features most useful to the customer query
+        - The search query may imply related features even when the exact words are not used
+        - Include direct query matches where relevant
+        - Keep the response concise
+
+        Return ONLY valid JSON in this format:
+        [
+          "Feature One",
+          "Feature Two",
+          "Feature Three"
+        ]
+    """
+
+    
+    search_term_features = fallback_relevant_features(query, features)
+    try:
+        generated_text = generate_chat_completion(prompt)
+        print(generated_text)
+        json_text = re.search(r"\[.*\]", generated_text, re.DOTALL).group(0)
+        relevant_features = json.loads(json_text)
+
+        if isinstance(relevant_features, list):
+            return list(dict.fromkeys(relevant_features + search_term_features))
+
+    except Exception as error:
+        print("HF error:", error)
+
+    return search_term_features
