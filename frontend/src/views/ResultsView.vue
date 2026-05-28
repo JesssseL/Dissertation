@@ -6,10 +6,6 @@
             <span class="accent">{{searchStore.query}}</span>
           </h2>
         </div>
-
-        <div class="background-gradient">
-          Chat about these options with AI
-        </div>
         
         <div class="product-cards">
             <ProductCard 

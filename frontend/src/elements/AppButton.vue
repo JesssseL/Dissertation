@@ -99,6 +99,16 @@ button {
   background: var(--card-hover);
 }
 
+.ghost {
+  background: transparent;
+  color: var(--main-text)
+}
+.ghost:hover,
+.ghost:focus-visible {
+  background: var(--light-hover);
+  color: var(--primary);
+}
+
 .full-width {
   width: 100%;
 }

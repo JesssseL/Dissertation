@@ -14,7 +14,7 @@
                 <span class="card-rating"> {{rating}} </span>
             </div>
 
-            <p class="label">Matched Features</p>
+            <p class="label">Reccomended Features</p>
             <div class="card-features">
                 <SelectableTag 
                     v-for="feature in features" 
@@ -25,7 +25,7 @@
                 />
             </div>
 
-            <p class="label">Additional Features</p>
+            <p class="label">Other Features</p>
             <div class="card-features">
                 <SelectableTag 
                     v-for="feature in additionalFeatures" 
@@ -112,7 +112,6 @@ export default {
 
 <style scoped>
 .product-card {
-    padding: var(--padding-large);
     width: 100%;
     height: 100%;
     position: relative;
@@ -125,6 +124,7 @@ export default {
     border: 1px solid var(--border);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-small);
+    overflow: hidden;
 }
 
 .card-title {
@@ -138,7 +138,6 @@ export default {
     width: 100%;
     height: 175px;
     position: relative;
-    border-radius: var(--border-radius);
     overflow: clip;
 }
 
@@ -150,8 +149,12 @@ export default {
 
 .card-main {
     display: flex;
-    flex-direction: column;
+    flex-direction: column;    
+    padding: var(--padding-large);
     gap: var(--gap);
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 44vh;
 }
 
 .card-features {
@@ -169,6 +172,7 @@ export default {
 
 .card-footer {
     border-top: 2px solid black;
+    padding: var(--padding-large);
     padding-top: var(--padding);
     flex-direction: column;
     margin-top: auto;
