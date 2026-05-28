@@ -171,7 +171,7 @@ export default {
 }
 
 .card-footer {
-    border-top: 2px solid black;
+    border-top: 2px solid var(--half-rule);
     padding: var(--padding-large);
     padding-top: var(--padding);
     flex-direction: column;

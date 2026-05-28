@@ -2,7 +2,8 @@
   <BurgerMenu 
     :currentRoute="$route.name" />
   <router-view />
-  <AiPannel />
+  <AiPannel 
+    :currentRoute="$route.name" />
 </template>
 
 <script>

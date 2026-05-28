@@ -9,9 +9,10 @@
             v-model="inputText"
         />
         <AppButton 
-            text="Search" 
+            :text="buttonText" 
+            :leftIcon="buttonIcon"
+            :disabled="buttonDisabled"
             type="submit" 
-            leftIcon="search"
             @submit.prevent="submitSearch"
         />
     </form>
@@ -27,6 +28,18 @@ export default {
             type: Array,
             default: () => [],
         },
+        buttonText: {
+            type: String,
+            default: "Search"
+        },
+        buttonIcon: {
+            type: String,
+            default: "search"
+        },
+        buttonDisabled: {
+            type: Boolean,
+            default: false
+        }
     },
     components: {
         AppButton,
@@ -66,6 +79,7 @@ export default {
         },
         submitSearch() {
             this.$emit("search", this.inputText); 
+            this.inputText = ''
         }
     },
 }
