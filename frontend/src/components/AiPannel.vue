@@ -66,6 +66,7 @@ import AiSuggestion from '@/elements/AiSuggestion.vue'
 import AppButton from '@/elements/AppButton.vue';
 import SuggestionInput from './SuggestionInput.vue';
 import { useSearchStore } from '@/stores/searchStore'
+import { useAiStore } from '@/stores/aiStore';
 
 export default {
   name: "AiPannel",
@@ -84,19 +85,17 @@ export default {
   data() {
     return {
         searchStore: useSearchStore(),
+        aiStore: useAiStore(),
         open: false,
-        messageSending: false,
-        suggestedSearchTerm: '',
-        messages: [
-            {
-                sender: 'ai',
-                text: 'I analysed your search for wireless headphones and found a few strong options for work and calls.'
-            }
-        ]
     }
   },
-  watch: {},
   computed: {
+    messages() {
+        return this.aiStore.messages
+    },
+    messageSending() {
+        return this.aiStore.messageSending
+    },
     showPannel() {
         if (
             this.currentRoute === 'Home' ||
@@ -137,34 +136,11 @@ export default {
       }
     },
     async sendMessage(event) {
-        this.messages.push({
-            sender: 'user',
-            text: event
-        })
-
-        // fake ai response
-        await this.newAIMessage(
-            'These Sony headphones are strong for office use because they have excellent microphone quality and active noise cancellation.'
+        this.aiStore.sendUserMessage(event)
+        // API call to get response
+        this.aiStore.sendAIMessage(
+            'These Sony headphones are strong for office use because they have excellent microphone quality and active noise cancellation...'
         )
-    },
-    async newAIMessage(message) {
-        this.messages.push({
-            sender: 'ai',
-            text: ''
-        })
-        this.messageSending = true
-        const messageIndex = this.messages.length - 1
-
-        for (let i = 0; i < message.length; i++) {
-            const currentText = this.messages[messageIndex].text + message[i]
-            this.messages.splice(messageIndex, 1, {
-                sender: 'ai',
-                text: currentText
-            })
-            await new Promise(resolve => setTimeout(resolve, 25))
-        }
-        this.suggestedSearchTerm = 'Noise cancelling headphones for work'
-        this.messageSending = false
     }
   },
 };

@@ -18,6 +18,7 @@
 <script>
 import SuggestionInput from '../components/SuggestionInput.vue'
 import { useSearchStore } from '../stores/searchStore'
+import { useAiStore } from '@/stores/aiStore';
 
 export default {
   name: "HomeView",
@@ -26,12 +27,14 @@ export default {
   },
   data() {
     return {
-      searchStore: useSearchStore()
+      searchStore: useSearchStore(),
+      aiStore: useAiStore(),
     };
   },
   methods: {
     search(event) {
       this.searchStore.setQuery(event)
+      this.aiStore.sendStatusMessage('user', `Search Query set to: ${event}`)
       this.$router.push('/intent')
     },
   },
