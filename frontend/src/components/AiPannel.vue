@@ -21,6 +21,14 @@
                 :sender="message.sender"
                 :text="message.text"
             />
+            <div
+                v-if="messageLoading" 
+                class="pannel_message_loading"
+            >
+                <span class="pannel_message_loading-dot"></span>
+                <span class="pannel_message_loading-dot"></span>
+                <span class="pannel_message_loading-dot"></span>
+            </div>
         </div>
 
         <AiSuggestion 
@@ -85,6 +93,7 @@ export default {
   data() {
     return {
         searchStore: useSearchStore(),
+        messageLoading: false,
         aiStore: useAiStore(),
         open: false,
     }
@@ -94,7 +103,7 @@ export default {
         return this.aiStore.messages
     },
     messageSending() {
-        return this.aiStore.messageSending
+        return this.messageLoading && this.aiStore.messageSending
     },
     showPannel() {
         if (
@@ -137,10 +146,20 @@ export default {
     },
     async sendMessage(event) {
         this.aiStore.sendUserMessage(event)
-        // API call to get response
-        this.aiStore.sendAIMessage(
-            'These Sony headphones are strong for office use because they have excellent microphone quality and active noise cancellation...'
-        )
+        this.messageLoading = true
+        const aiResponse = await this.getAIMessageResponse(event)
+        this.messageLoading = false
+        this.aiStore.sendAIMessage(aiResponse)
+    },
+    async getAIMessageResponse(userMessage) {
+        let aiResponse = userMessage
+                            .split('')
+                            .sort(() => Math.random() - 0.5)
+                            .join('')
+        if (aiResponse == '') {
+            return 'Response could not be generated'
+        }
+        return aiResponse
     }
   },
 };
@@ -227,5 +246,50 @@ export default {
     display: flex;
     flex-direction: column;
     gap: var(--gap)
+}
+
+.pannel_message_loading {
+    border-radius: var(--border-radius);
+    padding: var(--padding-large);
+    width: fit-content;
+    max-width: 80%;
+    word-break: break-word;
+    align-self: flex-end;
+    color: var(--main-text);
+    padding: var(--padding-large);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-small);
+    background-color: white;
+    align-self: flex-start;
+    display: inline-flex;
+    gap: var(--gap)
+}
+.pannel_message_loading-dot {
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--primary);
+    animation: loading-dot 1.4s infinite ease-in-out;
+}
+.pannel_message_loading-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.pannel_message_loading-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes loading-dot {
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 </style>

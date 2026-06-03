@@ -44,15 +44,13 @@
 
 <script>
 import AppButton from '@/elements/AppButton.vue'
-import SelectableTag from '@/elements/SelectableTag.vue';
 import { useSearchStore } from '../../stores/searchStore'
 import { useDiscoveryStore } from '../../stores/discoveryStore'
 
 export default {
   name: "QuestionsView",
   components: {
-    AppButton,
-    SelectableTag
+    AppButton
   },
   data() {
     return {
