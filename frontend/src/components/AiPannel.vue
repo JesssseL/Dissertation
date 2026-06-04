@@ -63,6 +63,7 @@
         v-if="showPannel && !open"
         class="pannel-button"
         leftIcon="wand_stars"
+        text="Ai Assistant"
         theme="tertiary"
         @click="openMenu"
     />
@@ -225,6 +226,7 @@ export default {
     border: 1px solid var(--border);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-small);
+    z-index: var(--above-all);
 }
 .pannel > * {
     
