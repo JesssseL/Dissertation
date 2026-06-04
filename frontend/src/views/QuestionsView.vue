@@ -44,8 +44,8 @@
 
 <script>
 import AppButton from '@/elements/AppButton.vue'
-import { useSearchStore } from '../../stores/searchStore'
-import { useDiscoveryStore } from '../../stores/discoveryStore'
+import { useSearchStore } from '@/stores/searchStore'
+import { useDiscoveryStore } from '@/stores/discoveryStore'
 
 export default {
   name: "QuestionsView",

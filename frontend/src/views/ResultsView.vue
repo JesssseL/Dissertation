@@ -5,9 +5,28 @@
           <h2> Based on your search for 
             <span class="accent">{{searchStore.query}}</span>
           </h2>
+
+          <div class="results-view-buttons">
+            <AppButton 
+                text="Card View"
+                leftIcon="view_comfy_alt"
+                :disabled="cardView"
+                theme="secondary"
+                @click="cardView = true"
+            />
+            <AppButton 
+                text="Comparison View"
+                leftIcon="border_all"
+                :disabled="!cardView"
+                theme="secondary"
+                @click="cardView = false"
+            />
+          </div>
         </div>
-        
-        <div class="product-cards">
+
+        <div
+          v-if="cardView"
+          class="product-cards">
             <ProductCard 
               v-for="product in productSuggestions"
               :key="product.id"
@@ -23,6 +42,10 @@
               @toggleFeature="addSearchFeature"
             />
         </div>
+        <ProductTable
+          v-else
+          :products="productSuggestions" 
+        />
 
         <div class="results-footer footer">
             <AppButton 
@@ -47,6 +70,7 @@
 
 <script>
 import ProductCard from '../components/ProductCard.vue'
+import ProductTable from '@/components/ProductTable.vue'
 import AppButton from '../elements/AppButton.vue'
 import { useSearchStore } from '../stores/searchStore'
 import { useResultsStore } from '../stores/resultsStore'
@@ -55,6 +79,7 @@ export default {
   name: "ResultsView",
   components: {
     ProductCard,
+    ProductTable,
     AppButton,
   },
   data() {
@@ -64,6 +89,7 @@ export default {
       productSuggestions: [],
       searchFeatures: [],
       initialFeatures: [],
+      cardView: true,
     };
   },
   computed: {
@@ -124,5 +150,12 @@ export default {
     width: 100%;
     gap: var(--gap);
     padding: var(--padding);
+}
+
+.results-view-buttons {
+  display: flex;
+  gap: var(--gap);
+  position: absolute;
+  right: var(--padding);
 }
 </style>

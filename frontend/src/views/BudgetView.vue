@@ -10,7 +10,9 @@
           :high="highBudget"
           :selectedMin="selectedMin"
           :selectedMax="selectedMax"
-          @budgetUpdate="updateBudget" 
+          @budgetUpdate="updateBudget"
+          @resetFloor="selectedMin = lowBudget.min"
+          @resetCeil="selectedMax = highBudget.max"
         />
         <AppButton 
           text="Next"

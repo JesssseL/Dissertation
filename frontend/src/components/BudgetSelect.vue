@@ -6,7 +6,19 @@
             <BudgetCard icon="£££" label="High" type="high" :min="high.min" :max="high.max" @select="updateSelectedRange" :selected="selectedMin === high.min && selectedMax === high.max" />
         </div>
 
-        <span class="help-text"> Drag the sliders to set your own range </span>
+        <div class="range-help">
+            <AppButton 
+                text="Set to min"
+                :disabled="selectedMin === low.min"
+                @click="resetFloor"
+            />
+            <span class="help-text"> Drag the sliders to set your own range </span>
+            <AppButton 
+                text="Set to max"
+                :disabled="selectedMax === high.max"
+                @click="resetCeil"
+            />
+        </div>
 
         <RangeSlider 
             @updateRange="updateSelectedRange"
@@ -20,6 +32,7 @@
 </template>
 
 <script>
+    import AppButton from '@/elements/AppButton.vue';
     import BudgetCard from '../elements/BudgetCard.vue'
     import RangeSlider from '../elements/RangeSlider.vue'
 
@@ -58,6 +71,7 @@
         },
         components: {
             BudgetCard,
+            AppButton,
             RangeSlider,
         },
         methods: {
@@ -66,6 +80,12 @@
                     min: event.min,
                     max: event.max,
                 });
+            },
+            resetFloor() {
+                this.$emit("resetFloor");
+            },
+            resetCeil() {
+                this.$emit("resetCeil");
             }
         },
     }
@@ -86,5 +106,11 @@
     width: 100%;
     height: 100%;
     margin-bottom: 2rem;
+}
+.range-help {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    width: 100%;
 }
 </style>

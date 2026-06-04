@@ -1,6 +1,10 @@
 <template>
     <article class="product-card">
         <div class="card-image">
+            <span class="card-tag">
+                <span class="button-icon material-symbols-outlined card-star card-tag__icon"> star </span>
+                Best Fit
+            </span>
             <img :src="image" :alt="`Image of ${name}`" />
         </div>
 
@@ -113,7 +117,7 @@ export default {
 <style scoped>
 .product-card {
     width: 100%;
-    height: 100%;
+    height: 70vh;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -136,13 +140,13 @@ export default {
 
 .card-image {
     width: 100%;
-    height: 175px;
+    height: 30vh;
     position: relative;
     overflow: clip;
 }
 
 .card-image img {
-    object-fit: cover;
+    object-fit: contain;
     width: 100%;
     height: 100%;
 }
@@ -153,7 +157,7 @@ export default {
     padding: var(--padding-large);
     gap: var(--gap);
     overflow: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 44vh;
 }
 
@@ -212,5 +216,23 @@ export default {
 
 .price {
     color: var(--primary);
+}
+
+.card-tag {
+    background-color: var(--primary);
+    color: white;
+    position: absolute;
+    top: var(--padding-large);
+    right: var(--padding-large);
+    padding: var(--padding) var(--padding-large);
+    border-radius: var(--border-radius);
+    gap: var(--gap);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-tag__icon {
+    color: inherit;
 }
 </style>

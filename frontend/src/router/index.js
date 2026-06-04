@@ -5,11 +5,7 @@ import HomeView from '@/views/HomeView.vue'
 import BudgetView from '@/views/BudgetView.vue'
 import ResultsView from '@/views/ResultsView.vue'
 import LoadingView from '@/views/LoadingView.vue'
-
-import FeatureView from '@/views/intent/FeatureView.vue'
-import QuestionsView from '@/views/intent/QuestionsView.vue'
-import StylesView from '@/views/intent/StylesView.vue'
-import IntentSelectView from '@/views/intent/IntentSelectView.vue'
+import QuestionsView from '@/views/QuestionsView.vue'
 
 const routes = [
   {
@@ -54,30 +50,9 @@ const routes = [
     }
   },
   {
-    path: '/intent',
-    name: 'Intent',
-    component: IntentSelectView
-  },
-  {
-    path: '/features',
-    name: 'Feature',
-    component: FeatureView,
-    meta: { 
-      requiresQuery: true,
-    }
-  },
-  {
     path: '/questions',
     name: 'Questions',
     component: QuestionsView,
-    meta: { 
-      requiresQuery: true,
-    }
-  },
-  {
-    path: '/styles',
-    name: 'Styles',
-    component: StylesView,
     meta: { 
       requiresQuery: true,
     }

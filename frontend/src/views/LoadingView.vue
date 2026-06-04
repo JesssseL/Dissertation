@@ -65,24 +65,8 @@ export default {
   },
   async mounted() {
     if (this.loadingType === 'intent'){
-      let routerLocation = '/budget'
-      switch (this.discoveryStore.intentStyle) {
-        case "Questions":
-          await this.getProductInfoWithQuestions()
-          routerLocation = '/questions'
-          break;
-        case "Photos":
-          await this.getProductInfoWithPhotos()
-          routerLocation = '/styles'
-          break;
-        case "Features":
-          await this.getProductInfoWithFeatures()
-          routerLocation = '/features'
-          break;
-        default:
-          break;
-      }
-      this.$router.push(routerLocation)
+      await this.getProductInfoWithQuestions()
+      this.$router.push('/questions')
     }
     else if (this.loadingType === 'results'){
       await this.getProductResults()
@@ -93,21 +77,6 @@ export default {
     }
   },
   methods: {
-    async getProductInfoWithPhotos() {
-      try {
-        const [photos, budgetRanges] = await Promise.all([
-          getProductPhotos(this.searchStore.query),
-          getBudgetRanges(this.searchStore.query)
-        ])
-        console.log('loaded', photos)
-        this.discoveryStore.setPhotos(photos)
-        this.discoveryStore.setBudgetRanges(budgetRanges)
-        return true
-      } catch (error) {
-        console.error('Failed to load product info:', error)
-        return false
-      }
-    },
     async getProductInfoWithQuestions() {
       try {
         const [questions, budgetRanges] = await Promise.all([
@@ -123,51 +92,21 @@ export default {
         return false
       }
     },
-    async getProductInfoWithFeatures() {
-      try {
-        const [features, budgetRanges] = await Promise.all([
-          getProductFeatures(this.searchStore.query),
-          getBudgetRanges(this.searchStore.query)
-        ])
-        this.discoveryStore.setFeatures(features)
-        this.discoveryStore.setBudgetRanges(budgetRanges)
-        return true
-      } catch (error) {
-        console.error('Failed to load product info:', error)
-        return false
-      }
-    },
     async getProductResults () {
       try {
-        switch (this.discoveryStore.intentStyle) {
-          case "Questions":
-            let questionsResponse = await getNewQueryFromQuestionAnswers(
-              this.searchStore.query,
-              this.searchStore.questionsAndAnswers
-            )
+        let questionsResponse = await getNewQueryFromQuestionAnswers(
+          this.searchStore.query,
+          this.searchStore.questionsAndAnswers
+        )
+        this.searchStore.query = questionsResponse.query
 
-            this.searchStore.query = questionsResponse.query
-            break;
-          case "Photos":
-            let photoResponse = await getNewQueryFromPhotosSelected(
-              this.searchStore.query,
-              this.searchStore.photos
-            )
-            this.searchStore.query = photoResponse.query
-            break;
-          default:
-            break;
-        }
         const results = await getRecommendations(
           this.searchStore.query, 
           this.searchStore.minPrice, 
           this.searchStore.maxPrice,
           this.searchStore.features
         )
-        console.log(results)
-        console.log('about to call ai store')
         this.aiStore.addResults(results)
-        console.log('should have called it by now')
         this.resultsStore.setResults(results)
         return true
       } catch (error) {

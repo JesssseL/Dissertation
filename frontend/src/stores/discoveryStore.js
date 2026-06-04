@@ -6,38 +6,27 @@ import { defineStore } from 'pinia'
  * Represents the "guildance" of the search flow.
  */
 export const useDiscoveryStore = defineStore('discovery', () => {
-  const intentStyle = ref("Features")
   const budgetRanges = ref([])
-
-  const commonFeatures = ref([])
   const questions = ref([])
-  const photos = ref([])
 
-  const hasIntent = computed(() => commonFeatures.value.length > 0 || questions.value.length > 0 || photos.value.length > 0)
+  const hasIntent = computed(() => questions.value.length)
   const hasBudget = computed(() => budgetRanges.value.length > 0)
 
   function setBudgetRanges(value) { budgetRanges.value = value }
-  function setFeatures(value) { commonFeatures.value = value }
   function setQuestions(value) { questions.value = value }
-  function setPhotos(value) { photos.value = value }
 
   function clearStore() {
-    commonFeatures.value = []
+    questions.value = []
     budgetRanges.value = []
   }
 
   return {
-    intentStyle,
     budgetRanges,
-    commonFeatures,
     questions,
-    photos,
     hasIntent,
     hasBudget,
     setBudgetRanges,
-    setFeatures,
     setQuestions,
-    setPhotos,
     clearStore
   }
 })

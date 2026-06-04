@@ -38,7 +38,7 @@ export default {
     search(event) {
       this.searchStore.setQuery(event)
       this.aiStore.sendStatusMessage('user', `Search Query set to: ${event}`)
-      this.$router.push('/intent')
+      this.$router.push('/loading/intent')
     },
   },
 };
