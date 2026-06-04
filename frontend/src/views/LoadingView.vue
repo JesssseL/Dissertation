@@ -129,7 +129,6 @@ export default {
           getProductFeatures(this.searchStore.query),
           getBudgetRanges(this.searchStore.query)
         ])
-
         this.discoveryStore.setFeatures(features)
         this.discoveryStore.setBudgetRanges(budgetRanges)
         return true

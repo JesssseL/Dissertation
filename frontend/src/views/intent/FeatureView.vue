@@ -5,13 +5,19 @@
           <h2> Select all that apply </h2>
         </div>
 
-        <div class="feature_container">
+        <div class="feature_stage">
+          <div class="query_card">
+            <h3 class="header-style">{{ searchStore.query }}</h3>
+          </div>
+
+          <div class="feature_container">
             <SelectableTag 
-                v-for="feature in discoveryFeatures"
-                :key="feature"
-                :label="feature"
-                @change="addSearchFeature"
+              v-for="feature in discoveryFeatures"
+              :key="feature"
+              :label="feature"
+              @change="addSearchFeature"
             />
+          </div>
         </div>
 
         <AppButton 
@@ -44,7 +50,7 @@ export default {
     }
   },
   mounted() {
-    this.discoveryFeatures = [...this.discoveryStore.features]
+    this.discoveryFeatures = [...this.discoveryStore.commonFeatures]
     this.searchFeatures = [...this.searchStore.features]
   },
   methods: {
@@ -70,7 +76,33 @@ export default {
   flex-direction: column;
   gap: 5px;
 }
+
+.feature_container {
+  max-width: 900px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: calc(var(--gap) * 2);
+}
+
 button {
+  margin-top: auto;
   align-self: flex-end;
+}
+
+.feature_stage {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  gap: 2.5rem;
+  align-content: center;
+}
+
+.query_card {
+  text-align: center;
+}
+
+h3 {
+  font-size: clamp(2rem, 5vw, 4rem);
 }
 </style>
