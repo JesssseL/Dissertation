@@ -15,7 +15,7 @@
               v-for="feature in discoveryFeatures"
               :key="feature"
               :label="feature"
-              @change="addSearchFeature"
+              @click="addSearchFeature(feature)"
             />
           </div>
         </div>
@@ -51,7 +51,6 @@ export default {
   },
   mounted() {
     this.discoveryFeatures = [...this.discoveryStore.commonFeatures]
-    this.searchFeatures = [...this.searchStore.features]
   },
   methods: {
     addSearchFeature(feature) {
