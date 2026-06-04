@@ -146,6 +146,7 @@ export default {
     border: 1px solid var(--border);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-small);
+    z-index: var(--above-all);
 }
 .burger-close {
     display: flex;

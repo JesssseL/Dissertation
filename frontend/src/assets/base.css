@@ -39,6 +39,9 @@
   --gap: 5px;
   --padding-large: 10px;
   --border-radius: 10px;
+
+  
+    --above-all: 999;
 }
 
 
@@ -105,7 +108,8 @@ body {
 }
 
 h1,
-h1 * {
+h1 *,
+.header-style {
   font-family: var(--font-secondary);
   font-size: 2rem;
   font-weight: 600;
