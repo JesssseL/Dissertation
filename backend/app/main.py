@@ -4,16 +4,19 @@ from app.models.requests import (
     BudgetRangesRequest,
     ProductFeaturesRequest,
     RecommendationsRequest,
+    ChatbotRequest,
 )
 from app.models.response import (
     BudgetRange,
     ProductRecommendation,
-    EnhancedQuery
+    EnhancedQuery,
+    ChatbotResponse,
 )
 from app.services.search_service import (
     generate_budget_ranges,
     generate_product_feature_list,
     generate_recommendations,
+    generate_next_message
 )
 
 app = FastAPI(
@@ -50,6 +53,10 @@ def get_budget_ranges(request: BudgetRangesRequest):
 @app.post("/api/recommendations")
 def create_recommendations(request: RecommendationsRequest):
     return generate_recommendations(request)
+
+@app.post("/api/chatbot", response_model=ChatbotResponse)
+def reply_to_conversation(request: ChatbotRequest):
+    return generate_next_message(request)
 
 # ------------------------------------------
 # Intent Specific - Questions

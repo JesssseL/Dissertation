@@ -92,7 +92,8 @@ export default {
         this.userSearchTerm = this.savedSearchTerm
     },
     updateSearchQuery() {
-        this.$emit('new-search', this.searchTerm)
+    console.log('AiSuggestion emit')
+        this.$emit('newSearch', this.searchTerm)
         this.savedSearchTerm = ''
     },
   }

@@ -18,3 +18,7 @@ class ProductRecommendation(BaseModel):
 
 class EnhancedQuery(BaseModel):
     query: str
+
+class ChatbotResponse(BaseModel):
+    reply: str
+    suggestedSearchTerm: str | None = None

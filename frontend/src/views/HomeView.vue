@@ -31,6 +31,9 @@ export default {
       aiStore: useAiStore(),
     };
   },
+  mounted() {
+    this.aiStore.clearMessages()
+  },
   methods: {
     search(event) {
       this.searchStore.setQuery(event)

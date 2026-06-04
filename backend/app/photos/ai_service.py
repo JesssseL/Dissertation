@@ -1,4 +1,4 @@
-from app.clients.huggingface_client import generate_chat_completion
+from app.clients.huggingface_client import generate_chat_reply
 
 def generate_ai_feature_based_query(query: str, product_names: list[str], common_features: list[str], descriptions: list[str]):
     formatted_products = "\n".join(product_names)
@@ -32,7 +32,7 @@ def generate_ai_feature_based_query(query: str, product_names: list[str], common
     """
 
     try:
-        generated_text = generate_chat_completion(prompt)
+        generated_text = generate_chat_reply(prompt)
         return generated_text
 
     except Exception as error:

@@ -11,3 +11,8 @@ class RecommendationsRequest(BaseModel):
     minPrice: float
     maxPrice: float
     features: list[str] = Field(default_factory=list)
+
+class ChatbotRequest(BaseModel):
+    message: str
+    query: str | None = None
+    history: list[dict] = Field(default_factory=list)

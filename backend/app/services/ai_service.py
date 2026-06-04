@@ -1,6 +1,9 @@
 import re
 import json
-from app.clients.huggingface_client import generate_chat_completion
+from app.clients.huggingface_client import (
+    generate_chat_reply,
+    generate_chat_completion
+)
 
 def fallback_ranges():
     return [
@@ -63,7 +66,7 @@ def generate_ai_budget_ranges(query: str, google_budgets: list[str]):
     """
 
     try:
-        generated_text = generate_chat_completion(prompt)
+        generated_text = generate_chat_reply(prompt)
         json_text = re.search(r"\[.*\]", generated_text, re.DOTALL).group(0)
         json_ranges = json.loads(json_text)
 
@@ -93,7 +96,7 @@ def generate_ai_search_term(query: str, features: list[str]):
     """
 
     try:
-        generated_text = generate_chat_completion(prompt)
+        generated_text = generate_chat_reply(prompt)
         return generated_text
 
     except Exception as error:
@@ -125,11 +128,10 @@ def generate_ai_relevant_features(query: str, features: list[str]):
           "Feature Three"
         ]
     """
-
     
     search_term_features = fallback_relevant_features(query, features)
     try:
-        generated_text = generate_chat_completion(prompt)
+        generated_text = generate_chat_reply(prompt)
         print(generated_text)
         json_text = re.search(r"\[.*\]", generated_text, re.DOTALL).group(0)
         relevant_features = json.loads(json_text)
@@ -141,3 +143,67 @@ def generate_ai_relevant_features(query: str, features: list[str]):
         print("HF error:", error)
 
     return search_term_features
+
+def generate_next_ai_message(query: str | None, user_message: str, conversation_history: list[dict]):
+    system_message = {
+        "role": "system",
+        "content": f"""
+            The customer is asking {
+                f"asking questions before buying: {query}"
+                if query
+                else "trying to decide what to search for"
+            }
+
+            - Help the user by replying to their question
+            {
+                f'''
+                - If appropriate, suggest a better search term than "{query}"
+                - If no search term change is needed, set suggestedSearchTerm to null
+                '''
+                if query
+                else '''
+                - Suggest a useful Google Shopping search term to be used
+                - suggestedSearchTerm must never be null
+                - If the customer is vague, ask one useful narrowing question.
+                '''
+            }
+            - Queries should be concise, built for shopping and derived from the user's intent
+            Search term rules:
+            - Preserve the user's original intent.
+            - Do not add premium, luxury, organic, designer, cheap, professional, best, or branded wording unless the user said it.
+            - For broad queries, keep the search term close to the original query.
+            - Keep the reply concise and useful.
+
+            Return ONLY valid JSON in this format:
+            {{
+                "reply": "...",
+                "suggestedSearchTerm": {
+                    f'''"..." | null'''
+                    if query
+                    else '''"..."'''
+                }
+            }}
+        """
+    }
+    newest_message = {
+        "role": "user",
+        "content": user_message
+    }
+
+    try:
+        generated_text = generate_chat_completion( 
+            [system_message]
+            + conversation_history 
+            + [newest_message] 
+        )
+        print(generated_text)
+        json_text = re.search(r"\{.*\}", generated_text, re.DOTALL).group(0)
+        return json.loads(json_text)
+
+    except Exception as error:
+        print("HF error:", error)
+
+    return {
+        "reply": "Sorry, I couldn't generate a response.",
+        "suggestedSearchTerm": None
+    }

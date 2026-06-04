@@ -1,9 +1,10 @@
 <template>
     <div 
-        :class="`message ${sender === 'ai' ? 'ai-message' : 'user-message'}`"
+        v-if="sender !== 'system'"
+        :class="`message ${sender === 'assistant' ? 'ai-message' : 'user-message'}`"
     >
         <span 
-          v-if="sender === 'ai'"
+          v-if="sender === 'assistant'"
           class="ai-icon material-symbols-outlined"
         > 
             wand_stars

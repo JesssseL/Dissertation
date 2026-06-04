@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { useAiStore } from '@/stores/aiStore';
 import { useSearchStore } from '../stores/searchStore'
 import { useResultsStore } from '../stores/resultsStore'
 import { useDiscoveryStore } from '../stores/discoveryStore'
@@ -51,6 +52,7 @@ export default {
   name: "LoadingView",
   data() {
     return {
+      aiStore: useAiStore(),
       searchStore: useSearchStore(),
       resultsStore: useResultsStore(),
       discoveryStore: useDiscoveryStore(),
@@ -152,7 +154,6 @@ export default {
               this.searchStore.query,
               this.searchStore.photos
             )
-
             this.searchStore.query = photoResponse.query
             break;
           default:
@@ -165,6 +166,9 @@ export default {
           this.searchStore.features
         )
         console.log(results)
+        console.log('about to call ai store')
+        this.aiStore.addResults(results)
+        console.log('should have called it by now')
         this.resultsStore.setResults(results)
         return true
       } catch (error) {

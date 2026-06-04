@@ -24,6 +24,7 @@
 <script>
 import BudgetSelect from '../components/BudgetSelect.vue'
 import AppButton from '../elements/AppButton.vue'
+import { useAiStore } from '@/stores/aiStore';
 import { useSearchStore } from '../stores/searchStore'
 import { useDiscoveryStore } from '../stores/discoveryStore'
 
@@ -38,6 +39,7 @@ export default {
       return {
           searchStore: useSearchStore(),
           discoveryStore: useDiscoveryStore(),
+          aiStore: useAiStore(),
           selectedMin: null,
           selectedMax: null,
       };
@@ -80,6 +82,7 @@ export default {
     saveBudget() {
       this.searchStore.setMinPrice(this.selectedMin)
       this.searchStore.setMaxPrice(this.selectedMax)
+      this.aiStore.sendStatusMessage('user', `Search Budget set to: £${this.selectedMin}-£${this.selectedMax}`)
       this.$router.push('/loading/results')
     }
   },

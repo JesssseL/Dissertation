@@ -15,11 +15,11 @@
             />
         </div>
 
-        <div class="pannel-main">
+        <div class="pannel-main" ref="pannelMain">
             <AiMessage 
                 v-for="message in messages"
-                :sender="message.sender"
-                :text="message.text"
+                :sender="message.role"
+                :text="message.content"
             />
             <div
                 v-if="messageLoading" 
@@ -73,8 +73,9 @@ import AiMessage from '@/elements/AiMessage.vue';
 import AiSuggestion from '@/elements/AiSuggestion.vue'
 import AppButton from '@/elements/AppButton.vue';
 import SuggestionInput from './SuggestionInput.vue';
-import { useSearchStore } from '@/stores/searchStore'
+import { useSearchStore } from '@/stores/searchStore';
 import { useAiStore } from '@/stores/aiStore';
+import { getChatbotResponse } from '@/services/chatbotService.js'
 
 export default {
   name: "AiPannel",
@@ -93,9 +94,21 @@ export default {
   data() {
     return {
         searchStore: useSearchStore(),
-        messageLoading: false,
         aiStore: useAiStore(),
+        messageLoading: false,
         open: false,
+        suggestedSearchTerm: ''
+    }
+  },
+  watch: {
+    messages: {
+        handler() {
+            this.scrollToBottom()
+        },
+        deep: true
+    },
+    messageLoading() {
+        this.scrollToBottom()
     }
   },
   computed: {
@@ -126,9 +139,18 @@ export default {
   methods: {
     openMenu() {
         this.open = true
+        this.scrollToBottom()
     },
     closeMenu() {
         this.open = false
+    },
+    scrollToBottom() {
+        this.$nextTick(() => {
+            const el = this.$refs.pannelMain
+            if (el) {
+                el.scrollTop = el.scrollHeight
+            }
+        })
     },
     handleOutsideClick(event) {
         if (!this.open) return
@@ -139,27 +161,46 @@ export default {
         }
     },
     updateSearch(event) {
+        console.log('updateSearch', event)
+
       this.searchStore.setQuery(event)
+      this.aiStore.sendStatusMessage('user', `Search Query set to: ${event}`)
+      this.suggestedSearchTerm = ''
       if (this.currentRoute == "Home") {
         this.$router.push('/intent')
       }
+      this.open = false
     },
     async sendMessage(event) {
         this.aiStore.sendUserMessage(event)
+        this.suggestedSearchTerm = ''
         this.messageLoading = true
         const aiResponse = await this.getAIMessageResponse(event)
         this.messageLoading = false
-        this.aiStore.sendAIMessage(aiResponse)
+        console.log('aiResponse', aiResponse)
+        this.aiStore.sendAIMessage(aiResponse.reply)
+        if (aiResponse.suggestedSearchTerm){
+            this.suggestedSearchTerm = aiResponse.suggestedSearchTerm
+        }
     },
     async getAIMessageResponse(userMessage) {
-        let aiResponse = userMessage
-                            .split('')
-                            .sort(() => Math.random() - 0.5)
-                            .join('')
-        if (aiResponse == '') {
-            return 'Response could not be generated'
+        try {
+            console.log('getChatbotResponse',
+                this.searchStore.query, 
+                userMessage, 
+                this.aiStore.messages)
+            return await getChatbotResponse(
+                this.searchStore.query, 
+                userMessage, 
+                this.aiStore.messages
+            )
+        } catch (error) {
+            console.error(error)
+            return {
+                reply: 'Response could not be generated',
+                suggestedSearchTerm: null
+            }
         }
-        return aiResponse
     }
   },
 };
@@ -228,11 +269,12 @@ export default {
     letter-spacing: 0.02em;
 }
 .pannel-main {
+    flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     gap: var(--gap);
     overflow-y: auto;
-    margin-top: auto;
 }
 .pannel-search-suggestion {
     display: flex;

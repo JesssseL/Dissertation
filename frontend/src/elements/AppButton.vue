@@ -1,6 +1,6 @@
 <template>
     <button
-      @click="click"
+      @click.stop="click"
       :type="type"
       :disabled="disabled"
       :class="[theme, { 'full-width': fullWidth }]"
@@ -24,6 +24,7 @@
 
 <script>
 export default {
+  emits: ['click'],
   props: {
     text: String,
     leftIcon: String,
@@ -68,7 +69,6 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s ease;
 }
 
 .primary {

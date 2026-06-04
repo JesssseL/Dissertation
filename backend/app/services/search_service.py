@@ -2,7 +2,8 @@ from pyexpat import features
 from app.services.ai_service import (
     generate_ai_budget_ranges,
     generate_ai_search_term,
-    generate_ai_relevant_features
+    generate_ai_relevant_features,
+    generate_next_ai_message
 )
 from app.services.product_service import (
     get_product_feature_list,
@@ -59,3 +60,6 @@ def generate_recommendations(request):
 
 
     return search_products
+
+def generate_next_message(request):
+    return generate_next_ai_message(request.query, request.message, request.history)

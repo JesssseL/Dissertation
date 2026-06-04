@@ -1,4 +1,4 @@
-from app.clients.huggingface_client import generate_chat_completion
+from app.clients.huggingface_client import generate_chat_reply
 import re
 import json
 
@@ -55,7 +55,7 @@ def generate_ai_questions(query: str):
     """
 
     try:
-        generated_text = generate_chat_completion(prompt)
+        generated_text = generate_chat_reply(prompt)
         json_text = re.search(r"\[.*\]", generated_text, re.DOTALL).group(0)
         json_questions = json.loads(json_text)
 
@@ -90,7 +90,7 @@ def generate_ai_search_term_from_questions(query: str, questionsAndAnswers):
     """
 
     try:
-        generated_text = generate_chat_completion(prompt)
+        generated_text = generate_chat_reply(prompt)
         return generated_text
 
     except Exception as error:
