@@ -148,7 +148,7 @@ def generate_next_ai_message(query: str | None, user_message: str, conversation_
     system_message = {
         "role": "system",
         "content": f"""
-            The customer is asking {
+            The customer is {
                 f"asking questions before buying: {query}"
                 if query
                 else "trying to decide what to search for"
