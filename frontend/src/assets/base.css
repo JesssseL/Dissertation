@@ -67,6 +67,14 @@ body {
   outline-offset: 3px;
 }
 
+summary:focus-visible {
+  outline: none;
+}
+details:has(summary:focus-visible) {
+  outline: 5px solid var(--outline);
+  outline-offset: 3px;
+}
+
 .accent {
   color: var(--primary);
 }
