@@ -10,7 +10,7 @@
                 <summary>
                     <div class="question_details">
                         <h3>{{ question.query }}</h3>
-                        <p>{{ question.example }}</p>
+                        <p>{{ question.description }}</p>
                     </div>
                     <span
                         v-if="!question.answer.trim().length > 0"
@@ -24,7 +24,16 @@
                     </span>
                 </summary>
                 <div class="question_answers">
-                    Your answer
+                    <div class="question_answer-examples"> 
+                      <SelectableTag 
+                        v-for="example in question.example"
+                        :key="example"
+                        :label="example"
+                        :checked="question.answer.split(', ').includes(example)"
+                        @click="toggleFeature(example, question)"
+                      />
+                    </div>
+                    Or type your own
                     <textarea 
                         v-model="question.answer"
                         placeholder="Type your answer here">
@@ -44,13 +53,15 @@
 
 <script>
 import AppButton from '@/elements/AppButton.vue'
+import SelectableTag from '@/elements/SelectableTag.vue';
 import { useSearchStore } from '@/stores/searchStore'
 import { useDiscoveryStore } from '@/stores/discoveryStore'
 
 export default {
   name: "QuestionsView",
   components: {
-    AppButton
+    AppButton,
+    SelectableTag
   },
   data() {
     return {
@@ -68,6 +79,7 @@ export default {
     this.questions = this.discoveryStore.questions.map(question => ({
       query: question.question,
       example: question.example,
+      description: question.description,
       answer: ''
     }))
   },
@@ -79,6 +91,17 @@ export default {
       }))
       this.searchStore.addQuestionsAndAnswers(answeredQuestions)
       this.$router.push('/budget')
+    },
+    toggleFeature(feature, question) {
+      const answers = question.answer
+        ? question.answer.split(', ').filter(Boolean)
+        : []
+
+      if (answers.includes(feature)) {
+        question.answer = answers.filter(answer => answer !== feature).join(', ')
+      } else {
+        question.answer = [...answers, feature].join(', ')
+      }
     }
   },
 };
@@ -131,5 +154,10 @@ button {
     flex-direction: column;
     gap: var(--gap);
     padding: var(--padding-large);
+}
+.question_answer-examples {
+  display: flex;
+  gap: var(--gap);
+  flex-wrap: wrap;
 }
 </style>
