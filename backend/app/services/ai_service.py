@@ -28,6 +28,30 @@ def fallback_relevant_features(query: str, features: list[str]):
 
     return matched_features
 
+def fallback_questions():
+    return [
+        {
+            "question": "Will this be used inside or outside?",
+            "description": "This helps identify whether durability or weather resistance is important.",
+            "example": ["Inside", "Outside"]
+        },
+        {
+            "question": "How often will this item be moved around?",
+            "description": "This helps determine whether portability and weight are important.",
+            "example": ["Never", "Frequently", "Daily commute"]
+        },
+        {
+            "question": "How will it be stored when not in use?",
+            "description": "This helps identify whether compact storage or permanent placement matters.",
+            "example": ["Left out", "Closet shelf", "Folded away"]
+        },
+        {
+            "question": "What temperature environment will it face?",
+            "description": "This helps identify whether heat, cold or climate resistance is required.",
+            "example": ["Extreme heat", "Air conditioned", "Freezing cold"]
+        }
+    ]
+
 def validate_budget_ranges(ranges):
     if len(ranges) != 3:
         return False
@@ -43,6 +67,17 @@ def validate_budget_ranges(ranges):
         if item["min"] >= item["max"]:
             return False
 
+    return True
+
+def validate_questions(questions):
+    if len(questions) != 4:
+        return False
+
+    expected_labels = ["question", "description", "example"]
+    for index, item in enumerate(questions):
+        if not all(key in item for key in expected_labels):
+            return False
+            
     return True
 
 def generate_ai_budget_ranges(query: str, google_budgets: list[str]):
@@ -207,3 +242,68 @@ def generate_next_ai_message(query: str | None, user_message: str, conversation_
         "reply": "Sorry, I couldn't generate a response.",
         "suggestedSearchTerm": None
     }
+
+def generate_ai_questions(query: str):
+    prompt = f"""
+        Suggest questions specific for a user buying a: {query}
+
+        - Return exatly 4 questions
+        - description: A short sentence explaining what preference, constraint or requirement this question is trying to discover.
+        - examples: 2-5 realistic example answers the user may select.
+        - examples should be 1-3 words responses to guild the user
+        - DO NOT MENTION BUDGET OR PRICE POINTS UNDER ANY CIRCUMSTANCE
+        - Try to stay away from questions that require technical answers
+
+        Return ONLY valid JSON in this format:
+        [
+          {{
+            "question": "...",
+            "description": "...",
+            "example": ["...", "..."]
+          }}    
+        ]
+    """
+
+    try:
+        generated_text = generate_chat_reply(prompt)
+        json_text = re.search(r"\[.*\]", generated_text, re.DOTALL).group(0)
+        json_questions = json.loads(json_text)
+
+        if validate_questions(json_questions):
+            return json_questions
+        print("couldn't validate questions")
+    except Exception as error:
+        print("HF error:", error)
+
+    return fallback_questions()
+
+def generate_ai_search_term_from_questions(query: str, questionsAndAnswers):
+    formatted_questions = "\n".join(
+        [
+            f"Question: {item.question}\nAnswer: {item.answer}"
+            for item in questionsAndAnswers
+            if item.answer
+        ]
+    )
+    prompt = f"""
+        We asked a customer the following questions for buying a {query}:
+
+        {formatted_questions}
+
+        Please use this data to create a query that will work well in Google Shopping:
+        - Include the most important features naturally
+        - Avoid unnecessary filler words
+        - Avoid repeating words
+        - Keep the search query under 15 words where possible
+
+        Return ONLY the final search query in plain text
+    """
+
+    try:
+        generated_text = generate_chat_reply(prompt)
+        return generated_text
+
+    except Exception as error:
+        print("HF error:", error)
+
+    return query

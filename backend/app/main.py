@@ -5,18 +5,23 @@ from app.models.requests import (
     ProductFeaturesRequest,
     RecommendationsRequest,
     ChatbotRequest,
+    QuestionRequest,
+    AnswerRequest,
 )
 from app.models.response import (
     BudgetRange,
     ProductRecommendation,
     EnhancedQuery,
     ChatbotResponse,
+    QuestionAndExample
 )
+
 from app.services.search_service import (
     generate_budget_ranges,
-    generate_product_feature_list,
     generate_recommendations,
-    generate_next_message
+    generate_next_message,
+    generate_questions,
+    generate_search_term_from_questions
 )
 
 app = FastAPI(
@@ -58,61 +63,10 @@ def create_recommendations(request: RecommendationsRequest):
 def reply_to_conversation(request: ChatbotRequest):
     return generate_next_message(request)
 
-# ------------------------------------------
-# Intent Specific - Questions
-# ------------------------------------------
-from app.question.ai_service import (
-    generate_ai_questions,
-    generate_ai_search_term_from_questions
-)
-from app.question.models import (
-    QuestionRequest,
-    AnswerRequest,
-    QuestionAndExample
-    )
 @app.post("/api/questions", response_model=list[QuestionAndExample])
 def get_product_questions(request: QuestionRequest):
-    return generate_ai_questions(request)
+    return generate_questions(request)
 
 @app.post("/api/answers", response_model=EnhancedQuery)
 def get_query_from_question_answers(request: AnswerRequest):
-    result = generate_ai_search_term_from_questions(request.query, request.questionsAndAnswers)
-    return { "query": result }
-
-# ------------------------------------------
-# Intent Specific - Features
-# ------------------------------------------
-@app.post("/api/features", response_model=list[str])
-def get_product_feature_list(request: ProductFeaturesRequest):
-    return generate_product_feature_list(request)
-
-# ------------------------------------------
-# Intent Specific - Photos
-# ------------------------------------------
-from app.photos.product_service import (
-    get_product_photos,
-    get_product_features
-)
-from app.photos.ai_service import (
-    generate_ai_feature_based_query
-)
-from app.photos.models import (
-    ImageRequest,
-    SelectedProductsRequest,
-    ProductWithImage
-)
-
-@app.post("/api/photos", response_model=list[ProductWithImage])
-def get_product_images(request: ImageRequest):
-    return get_product_photos(request.query)
-
-@app.post("/api/photo-features", response_model=EnhancedQuery)
-def get_query_from_selected_photos(request: SelectedProductsRequest):
-    photo_features = get_product_features(request.products)
-    result = generate_ai_feature_based_query(
-        request.query,
-        photo_features.get("productNames", []),
-        photo_features.get("features", []),
-        photo_features.get("descriptions", [])
-    )
-    return { "query": result }
+    return generate_search_term_from_questions(request.query)

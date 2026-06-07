@@ -3,21 +3,16 @@ from app.services.ai_service import (
     generate_ai_budget_ranges,
     generate_ai_search_term,
     generate_ai_relevant_features,
-    generate_next_ai_message
+    generate_next_ai_message,
+    generate_ai_questions,
+    generate_ai_search_term_from_questions
 )
 from app.services.product_service import (
-    get_product_feature_list,
     get_product_budget_ranges,
     get_product_list,
 )
 
-def generate_product_feature_list(request):
-    # SerpAPI request with query is cached, no extra tokens are used seperating these two
-    results = get_product_feature_list(request.query)
-    return results
-
 def generate_budget_ranges(request):
-    # SerpAPI request with query is cached, no extra tokens are used seperating these two
     google_budgets = get_product_budget_ranges(request.query)
     return generate_ai_budget_ranges(request.query, google_budgets)
 
@@ -63,3 +58,10 @@ def generate_recommendations(request):
 
 def generate_next_message(request):
     return generate_next_ai_message(request.query, request.message, request.history)
+
+def generate_questions(request):
+    return generate_ai_questions(request.query)
+
+def generate_search_term_from_questions(request):
+    result = generate_ai_search_term_from_questions(request.query, request.questionsAndAnswers)
+    return { "query": result }

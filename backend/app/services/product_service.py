@@ -44,12 +44,6 @@ def extract_filter_by_type(input_type: str, filters: list[dict]):
 
     return options
 
-def get_product_feature_list(query: str):
-    results = search_google_shopping(query)
-    filters = results.get("filters", [])
-
-    return extract_filter_by_type("checkbox", filters)
-
 def get_product_budget_ranges(query: str):
     results = search_google_shopping(query)
     filters = results.get("filters", [])

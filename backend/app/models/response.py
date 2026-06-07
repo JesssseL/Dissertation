@@ -22,3 +22,8 @@ class EnhancedQuery(BaseModel):
 class ChatbotResponse(BaseModel):
     reply: str
     suggestedSearchTerm: str | None = None
+
+class QuestionAndExample(BaseModel):
+    question: str
+    description: str
+    example: list[str]
