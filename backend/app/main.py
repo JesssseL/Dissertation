@@ -69,4 +69,4 @@ def get_product_questions(request: QuestionRequest):
 
 @app.post("/api/answers", response_model=EnhancedQuery)
 def get_query_from_question_answers(request: AnswerRequest):
-    return generate_search_term_from_questions(request.query)
+    return generate_search_term_from_questions(request)
