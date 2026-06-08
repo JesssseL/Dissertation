@@ -44,7 +44,8 @@
         </div>
         <ProductTable
           v-else
-          :products="productSuggestions" 
+          :products="productSuggestions"
+          :relevantFeatures="relevantFeatures"
         />
 
         <div class="results-footer footer">
@@ -89,6 +90,7 @@ export default {
       productSuggestions: [],
       searchFeatures: [],
       initialFeatures: [],
+      relevantFeatures: [],
       initalSearchTerm: '',
       cardView: true,
     };
@@ -102,6 +104,7 @@ export default {
     this.productSuggestions = this.resultsStore.results
     this.searchFeatures = [...this.searchStore.features]
     this.initialFeatures = [...this.searchStore.features]
+    this.relevantFeatures = [...this.resultsStore.relevantFeatures]
     this.initalSearchTerm = this.searchStore.query
   },
   methods: {
@@ -119,7 +122,6 @@ export default {
       this.$router.push('/')
     },
     regenerateSearch() {
-      console.log('features', this.searchStore.features)
       this.$router.push('/loading/results')
     },
     refineSearch() {

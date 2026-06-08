@@ -7,10 +7,12 @@ import { defineStore } from 'pinia'
  */
 export const useResultsStore = defineStore('results', () => {
   const results = ref([])
+  const relevantFeatures = ref([])
 
   const hasResults = computed(() => results.value.length > 0)
 
   function setResults(value) { results.value = value }
+  function setFeatures(value) { relevantFeatures.value = value}
 
   function clearStore() {
     results.value = []
@@ -18,8 +20,10 @@ export const useResultsStore = defineStore('results', () => {
 
   return {
     results,
+    relevantFeatures,
     hasResults,
     setResults,
+    setFeatures,
     clearStore
   }
 })

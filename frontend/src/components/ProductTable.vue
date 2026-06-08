@@ -29,11 +29,11 @@
             {{product.brand}}
           </td>
         </tr>
-        <tr v-for="row in 6" :key="row.label">
-          <td class="table-header"> Feature Name </td>
+        <tr v-for="feature in relevantFeatures.slice(0, 6)" :key="feature">
+          <td class="table-header">{{ feature }}</td>
 
           <td v-for="product in products" :key="product.name">
-            Feature Name
+            {{ product.features.includes(feature) ? "Yes" : "No" }}
           </td>
         </tr>
         <tr>
@@ -46,7 +46,7 @@
                     <span
                         v-for="star in 5"
                         :key="star"
-                        class="material-symbols-outlined table-star"
+                        :class="`material-symbols-outlined table-star ${getStarIcon(star, product.rating) !== 'star_outline' ? 'table-star--filled' : ''}`"
                     >
                         {{ getStarIcon(star, product.rating) }}
                     </span>
@@ -82,6 +82,10 @@ export default {
       type: Array,
       default: () => []
     },
+    relevantFeatures: {
+      type: Array,
+      default: () => []
+    }
   },
   components: {
     AppButton,
@@ -90,12 +94,13 @@ export default {
   },
   methods: {
     getStarIcon(starPosition, rating) {
+      console.log(starPosition, rating)
         if (rating >= starPosition) {
-        return 'star'
+          return 'star'
         }
 
         if (rating >= starPosition - 0.5) {
-        return 'star_half'
+          return 'star_half'
         }
 
         return 'star_outline'
@@ -148,6 +153,8 @@ export default {
 
 .table-star {
     color: var(--yellow-icon);
+}
+.table-star--filled {
     font-variation-settings:
     'FILL' 1;
 }

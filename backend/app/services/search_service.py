@@ -34,7 +34,6 @@ def generate_recommendations(request):
 
     relevant_features = generate_ai_relevant_features(search_term, all_features)
     lower_relevant_features = { feature.lower() for feature in relevant_features}
-    print("RF", relevant_features)
 
     # Move relevant features from additionalFeatures into features
     for product in search_products:
@@ -54,7 +53,10 @@ def generate_recommendations(request):
         product["additionalFeatures"] = list(dict.fromkeys(additional))
 
 
-    return search_products
+    return {
+        "search_products": search_products,
+        "relevant_features": relevant_features
+    }
 
 def generate_next_message(request):
     return generate_next_ai_message(request.query, request.message, request.history)

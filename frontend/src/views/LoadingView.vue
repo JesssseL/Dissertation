@@ -110,8 +110,9 @@ export default {
           this.searchStore.maxPrice,
           this.searchStore.features
         )
-        this.aiStore.addResults(results)
-        this.resultsStore.setResults(results)
+        this.aiStore.addResults(results.search_products)
+        this.resultsStore.setResults(results.search_products)
+        this.resultsStore.setFeatures(results.relevant_features)
         return true
       } catch (error) {
         console.error('Failed to load product results:', error)

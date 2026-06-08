@@ -10,10 +10,10 @@ from app.models.requests import (
 )
 from app.models.response import (
     BudgetRange,
-    ProductRecommendation,
+    ProductRecommendationResponse,
     EnhancedQuery,
     ChatbotResponse,
-    QuestionAndExample
+    QuestionAndExample,
 )
 
 from app.services.search_service import (
@@ -54,8 +54,7 @@ def read_root():
 def get_budget_ranges(request: BudgetRangesRequest):
     return generate_budget_ranges(request)
 
-#@app.post("/api/recommendations", response_model=list[ProductRecommendation])
-@app.post("/api/recommendations")
+@app.post("/api/recommendations", response_model=ProductRecommendationResponse)
 def create_recommendations(request: RecommendationsRequest):
     return generate_recommendations(request)
 
