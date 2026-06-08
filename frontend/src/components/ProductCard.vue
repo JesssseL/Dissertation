@@ -1,5 +1,5 @@
 <template>
-    <article class="product-card saved-product-card">
+    <article :class="`product-card ${theme == 'saved' ? 'saved-product-card' : ''}`">
         <div class="card-image">
             <span class="card-tag">
                 <span class="button-icon material-symbols-outlined card-star card-tag__icon"> star </span>
@@ -120,6 +120,10 @@ export default {
     tag: {
         type: String,
         default: "",
+    },
+    theme: {
+        type: String,
+        default: "result"
     }
   },
   components: {
@@ -188,6 +192,7 @@ export default {
     justify-content: center;
     gap: var(--gap);
     font-size: 2rem;
+    height: 100%;
 }
 
 .card-title {

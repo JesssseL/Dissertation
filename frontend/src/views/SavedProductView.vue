@@ -17,6 +17,7 @@
               :webUrl="product.webUrl"
               :price="product.price"
               :tag="product.tag"
+              theme="saved"
             />
         </div>
 
@@ -88,16 +89,8 @@ export default {
   flex-direction: column;
   gap: 5px;
   height: 100%;
-}
-
-.saved-product-cards .card-main{
-    overflow-y: hidden;
-}
-.saved-product-cards .card-image{
-    height: 10vh;
-}
-.saved-product-cards .secondary {
-    display: none;
+  margin: 0 auto;
+  align-items: center;
 }
 
 .saved-products-footer {
