@@ -6,6 +6,7 @@ import BudgetView from '@/views/BudgetView.vue'
 import ResultsView from '@/views/ResultsView.vue'
 import LoadingView from '@/views/LoadingView.vue'
 import QuestionsView from '@/views/QuestionsView.vue'
+import SavedProductView from '@/views/SavedProductView.vue'
 
 const routes = [
   {
@@ -29,6 +30,11 @@ const routes = [
       requiresQuery: true, 
       requiresBudget: true
     }
+  },
+  {
+    path: '/saved-products',
+    name: 'SavedProducts',
+    component: SavedProductView
   },
   {
     path: '/loading/intent',

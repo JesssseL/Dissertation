@@ -21,21 +21,14 @@
             text="Product Search"
             :fullWidth="true"
             :theme="menuRoute === 'search' ? 'secondary' : 'ghost'"
-            @click="goTo('Home')"
+            @click="goTo('/')"
         />
         <AppButton
             leftIcon="folder_open"
             text="Saved Products"
             :fullWidth="true"
             :theme="menuRoute === 'saved-products' ? 'secondary' : 'ghost'"
-            @click="goTo('SavedProducts')"
-        />
-        <AppButton
-            leftIcon="person"
-            text="Account"
-            :fullWidth="true"
-            :theme="menuRoute === 'account' ? 'secondary' : 'ghost'"
-            @click="goTo('Account')"
+            @click="goTo('/saved-products')"
         />
 
         <div class="burger-sign-ons">
@@ -90,17 +83,15 @@ export default {
   },
   computed: {
     menuRoute() {
-        if (this.currentRoute == 'saved-products') {
-            return 'saved-products'
-        } else if (this.currentRoute == 'account') {
-            return 'account'
-        } else {
-            return 'search'
+        if (this.$route.path === '/saved-products') {
+        return 'saved-products'
         }
+
+        return 'search'
     },
     loggedIn() {
         return this.accountStore.isLoggedIn
-    }
+    },
   },
   mounted() {
     document.addEventListener('click', this.handleOutsideClick, true)
@@ -116,7 +107,8 @@ export default {
         this.open = false
     },
     goTo(routeName) {
-        this.$router.push({ name: routeName })
+        console.log('click', routeName)
+        this.$router.push(routeName)
         this.closeMenu()
     },
     handleOutsideClick(event) {

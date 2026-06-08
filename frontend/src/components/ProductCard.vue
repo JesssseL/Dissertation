@@ -1,5 +1,5 @@
 <template>
-    <article class="product-card">
+    <article class="product-card saved-product-card">
         <div class="card-image">
             <span class="card-tag">
                 <span class="button-icon material-symbols-outlined card-star card-tag__icon"> star </span>
@@ -8,57 +8,65 @@
             <img :src="image" :alt="`Image of ${name}`" />
         </div>
 
-        <div class="card-main">
-            <h2 class="card-title"> {{name}} </h2>
-            <div class="card-details"> 
-                <span class="button-icon material-symbols-outlined"> sell </span>
-                <span> {{brand}} </span>
-                <hr/>
-                <span class="button-icon material-symbols-outlined card-star"> star </span>
-                <span class="card-rating"> {{rating}} </span>
+        <div class="card-main-and-footer">
+            <div class="card-main">
+                <h2 class="card-title"> {{name}} </h2>
+                <div class="card-details"> 
+                    <span class="button-icon material-symbols-outlined"> sell </span>
+                    <span> {{brand}} </span>
+                    <hr/>
+                    <span class="button-icon material-symbols-outlined card-star"> star </span>
+                    <span class="card-rating"> {{rating}} </span>
+                </div>
+
+                <p class="label"
+                    v-if="features.length > 0"
+                >Reccomended Features</p>
+                <div class="card-features">
+                    <SelectableTag 
+                        v-if="features.length > 0"
+                        v-for="feature in features" 
+                        :key="feature"
+                        :label="feature" 
+                        :checked="selectedFeatures.includes(feature)"
+                        @click="$emit('toggleFeature', feature)"
+                    />
+                </div>
+
+                <p class="label"
+                    v-if="additionalFeatures.length > 0"
+                >Other Features</p>
+                <div class="card-features">
+                    <SelectableTag 
+                        v-if="additionalFeatures.length > 0"
+                        v-for="feature in additionalFeatures" 
+                        :key="feature"
+                        :label="feature" 
+                        :checked="selectedFeatures.includes(feature)"
+                        @click="$emit('toggleFeature', feature)"
+                    />
+                </div>
             </div>
 
-            <p class="label">Reccomended Features</p>
-            <div class="card-features">
-                <SelectableTag 
-                    v-for="feature in features" 
-                    :key="feature"
-                    :label="feature" 
-                    :checked="selectedFeatures.includes(feature)"
-                    @click="$emit('toggleFeature', feature)"
+            <div class="card-footer">
+                <div class="card-spacer">
+                    <p class="price">£{{ Number(price).toFixed(2) }}</p>
+                    <AppButton 
+                        text="Save" 
+                        leftIcon="folder_open"
+                        theme="secondary"
+                        :disabled="saved || !loggedIn"
+                        @click="saveProduct"
+                    />
+                </div>
+                <LinkButton 
+                    text="Go to website"
+                    :href="webUrl"
+                    leftIcon="open_in_new"
+                    :fullWidth="true"
+                    theme="tertiary"
                 />
             </div>
-
-            <p class="label">Other Features</p>
-            <div class="card-features">
-                <SelectableTag 
-                    v-for="feature in additionalFeatures" 
-                    :key="feature"
-                    :label="feature" 
-                    :checked="selectedFeatures.includes(feature)"
-                    @click="$emit('toggleFeature', feature)"
-                />
-            </div>
-        </div>
-
-        <div class="card-footer">
-            <div class="card-spacer">
-                <p class="price">£{{ Number(price).toFixed(2) }}</p>
-                <AppButton 
-                    text="Save" 
-                    leftIcon="folder_open"
-                    theme="secondary"
-                    :disabled="saved || !loggedIn"
-                    @click="saveProduct"
-                />
-            </div>
-            <LinkButton 
-                text="Go to website"
-                :href="webUrl"
-                leftIcon="open_in_new"
-                :fullWidth="true"
-                theme="tertiary"
-            />
         </div>
     </article>
 </template>
@@ -174,6 +182,14 @@ export default {
     overflow: hidden;
 }
 
+.card-main-and-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--gap);
+    font-size: 2rem;
+}
+
 .card-title {
     font-size: 1.2rem;
     font-family: var(--font-secondary);
@@ -277,5 +293,22 @@ export default {
 
 .card-tag__icon {
     color: inherit;
+}
+
+.saved-product-card {
+    height: min-content;
+    width: 50vw;
+    flex-direction: row;
+    flex-shrink: 0;
+}
+.saved-product-card .card-main{
+    overflow-y: hidden;
+}
+.saved-product-card .card-image{
+    height: 20vh;
+    width: 20vw;
+}
+.saved-product-card .secondary {
+    display: none;
 }
 </style>
