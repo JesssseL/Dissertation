@@ -38,6 +38,7 @@
               :additionalFeatures="product.additionalFeatures" 
               :webUrl="product.webUrl"
               :price="product.price"
+              :tag="product.tag"
               :selectedFeatures="searchFeatures"
               @toggleFeature="addSearchFeature"
             />

@@ -52,6 +52,13 @@ def fallback_questions():
         }
     ]
 
+def fallback_tags():
+    [
+        "Recommended",
+        "Recommended",
+        "Recommended"
+    ]
+
 def validate_budget_ranges(ranges):
     if len(ranges) != 3:
         return False
@@ -167,7 +174,6 @@ def generate_ai_relevant_features(query: str, features: list[str]):
     search_term_features = fallback_relevant_features(query, features)
     try:
         generated_text = generate_chat_reply(prompt)
-        print(generated_text)
         json_text = re.search(r"\[.*\]", generated_text, re.DOTALL).group(0)
         relevant_features = json.loads(json_text)
 
@@ -231,7 +237,6 @@ def generate_next_ai_message(query: str | None, user_message: str, conversation_
             + conversation_history 
             + [newest_message] 
         )
-        print(generated_text)
         json_text = re.search(r"\{.*\}", generated_text, re.DOTALL).group(0)
         return json.loads(json_text)
 
@@ -271,7 +276,6 @@ def generate_ai_questions(query: str):
 
         if validate_questions(json_questions):
             return json_questions
-        print("couldn't validate questions")
     except Exception as error:
         print("HF error:", error)
 
@@ -307,3 +311,37 @@ def generate_ai_search_term_from_questions(query: str, questionsAndAnswers):
         print("HF error:", error)
 
     return query
+
+def generate_ai_search_products_with_tag(query: str, search_products):
+    prompt = f"""
+        Assign one short recommendation tag to each product for buying {query}:
+
+        Products:
+        {search_products}
+
+        - Return exactly one tag per product
+        - Tags should be short, 1-3 words
+        - Tags should help the user understand why the product may be useful
+        - Do not invent product details
+        - Safe example tags: Best Match, Good Value, Budget Option, Popular Choice, Alternative Option
+
+        Return ONLY valid JSON in this format:
+        [
+          "Best Match",
+          "Good Value",
+          "Alternative Option"
+        ]
+    """
+
+    try:
+        generated_text = generate_chat_reply(prompt)
+        json_text = re.search(r"\[.*\]", generated_text, re.DOTALL).group(0)
+        json_tags = json.loads(json_text)
+        return json_tags
+
+    except Exception as error:
+        print("HF error:", error)
+
+    return query
+
+    return fallback_tags()

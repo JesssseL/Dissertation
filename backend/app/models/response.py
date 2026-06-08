@@ -15,6 +15,7 @@ class Product(BaseModel):
     additionalFeatures: list[str]
     webUrl: str
     price: float
+    tag: str | None = None
 
 class ProductRecommendationResponse(BaseModel):
     search_products: list[Product]

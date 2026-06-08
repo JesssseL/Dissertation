@@ -11,7 +11,7 @@
                 <div class="table-essentials">
                     <span class="table-tag">
                         <span class="button-icon material-symbols-outlined table-star table-tag__icon"> star </span>
-                        Best Fit
+                        {{ product.tag }}
                     </span>
                     <span class="table-title">{{ product.name }}</span>
                     <p class="price">£{{ Number(product.price).toFixed(2) }}</p>

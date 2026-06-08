@@ -3,7 +3,7 @@
         <div class="card-image">
             <span class="card-tag">
                 <span class="button-icon material-symbols-outlined card-star card-tag__icon"> star </span>
-                Best Fit
+                {{tag}}
             </span>
             <img :src="image" :alt="`Image of ${name}`" />
         </div>
@@ -105,6 +105,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    tag: {
+        type: String,
+        default: "",
+    }
   },
   components: {
     AppButton,

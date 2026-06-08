@@ -5,7 +5,8 @@ from app.services.ai_service import (
     generate_ai_relevant_features,
     generate_next_ai_message,
     generate_ai_questions,
-    generate_ai_search_term_from_questions
+    generate_ai_search_term_from_questions,
+    generate_ai_search_products_with_tag
 )
 from app.services.product_service import (
     get_product_budget_ranges,
@@ -27,6 +28,12 @@ def generate_recommendations(request):
         f"{search_term} between £{request.minPrice} and £{request.maxPrice}", 
         request.minPrice, 
         request.maxPrice)
+    search_products_tags = generate_ai_search_products_with_tag(request.query, search_products)
+
+    # Add tags to products
+    print(search_products_tags)
+    for i in range(len(search_products)):
+        search_products[i]["tag"] = search_products_tags[i]
 
     all_features = []
     for product in search_products:
@@ -51,7 +58,6 @@ def generate_recommendations(request):
 
         product["features"] = list(dict.fromkeys(relevant))
         product["additionalFeatures"] = list(dict.fromkeys(additional))
-
 
     return {
         "search_products": search_products,
