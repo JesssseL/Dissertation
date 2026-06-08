@@ -89,18 +89,20 @@ export default {
       productSuggestions: [],
       searchFeatures: [],
       initialFeatures: [],
+      initalSearchTerm: '',
       cardView: true,
     };
   },
   computed: {
     featuresChanged() {
-      return JSON.stringify(this.initialFeatures) !== JSON.stringify(this.searchFeatures)
+      return (JSON.stringify(this.initialFeatures) !== JSON.stringify(this.searchFeatures) || this.initalSearchTerm !== this.searchStore.query)
     }
   },
   mounted() {
     this.productSuggestions = this.resultsStore.results
     this.searchFeatures = [...this.searchStore.features]
     this.initialFeatures = [...this.searchStore.features]
+    this.initalSearchTerm = this.searchStore.query
   },
   methods: {
     addSearchFeature(feature) {

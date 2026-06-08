@@ -94,11 +94,15 @@ export default {
     },
     async getProductResults () {
       try {
-        let questionsResponse = await getNewQueryFromQuestionAnswers(
-          this.searchStore.query,
-          this.searchStore.questionsAndAnswers
-        )
-        this.searchStore.query = questionsResponse.query
+        if (this.searchStore.questionsChanged) {
+          // Prevents search term being regenerated when questions have not been changed
+          let questionsResponse = await getNewQueryFromQuestionAnswers(
+            this.searchStore.query,
+            this.searchStore.questionsAndAnswers
+          )
+          this.searchStore.query = questionsResponse.query
+          this.searchStore.markQuestionsRead()
+        }
 
         const results = await getRecommendations(
           this.searchStore.query, 
