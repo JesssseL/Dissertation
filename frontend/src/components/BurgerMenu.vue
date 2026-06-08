@@ -45,7 +45,7 @@
                 text="Log out"
                 :fullWidth="true"
                 theme="primary"
-                @click="closeMenu"
+                @click="logOut"
             />
             <AppButton
                 v-else
@@ -53,7 +53,7 @@
                 text="Log in"
                 :fullWidth="true"
                 theme="primary"
-                @click="closeMenu"
+                @click="logIn"
             />
         </div>
     </div>
@@ -68,6 +68,8 @@
 
 <script>
 import AppButton from '@/elements/AppButton.vue';
+import { useAccountStore } from '@/stores/accountStore';
+import { addOrGetAccount } from '@/services/databaseService.js'
 
 export default {
   name: "BurgerMenu",
@@ -82,10 +84,10 @@ export default {
   },
   data() {
     return {
-        open: false
+        accountStore: useAccountStore(),
+        open: false,
     }
   },
-  watch: {},
   computed: {
     menuRoute() {
         if (this.currentRoute == 'saved-products') {
@@ -95,6 +97,9 @@ export default {
         } else {
             return 'search'
         }
+    },
+    loggedIn() {
+        return this.accountStore.isLoggedIn
     }
   },
   mounted() {
@@ -121,6 +126,30 @@ export default {
         if (menu && !menu.contains(event.target)) {
             this.closeMenu()
         }
+    },
+    logOut() {
+        this.accountStore.clearDetails()
+        this.closeMenu()
+    },
+    async logIn() {
+        const email = prompt('Enter email')
+        const password = prompt('Enter password')
+        try {
+            const response = await addOrGetAccount(email, password)
+            if (response.success) {
+                this.saved = true
+                this.accountStore.setAccountDetails(email, password)
+                alert('Logged in')
+            } else {
+                alert('Could not log in')
+            }
+        } catch (error) {
+            console.error('Failed to account:', error)
+            alert('Unexpected error')
+            return false
+        }
+
+        this.closeMenu()
     }
   },
 };

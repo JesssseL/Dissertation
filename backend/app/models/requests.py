@@ -27,3 +27,21 @@ class AnsweredQuestion(BaseModel):
 class AnswerRequest(BaseModel):
     query: str
     questionsAndAnswers: list[AnsweredQuestion]
+
+class AccountRequest(BaseModel):
+    email: str
+    password: str
+
+class DBProduct(BaseModel):
+    name: str
+    brand: str
+    rating: float
+    image: str
+    webUrl: str
+    price: float
+    tag: str | None = None
+
+class AccountProductRequest(BaseModel):
+    email: str
+    password: str
+    product: DBProduct

@@ -48,6 +48,8 @@
                     text="Save" 
                     leftIcon="folder_open"
                     theme="secondary"
+                    :disabled="saved || !loggedIn"
+                    @click="saveProduct"
                 />
             </div>
             <LinkButton 
@@ -65,6 +67,8 @@
 import AppButton from '../elements/AppButton.vue'
 import LinkButton from '../elements/LinkButton.vue'
 import SelectableTag from '../elements/SelectableTag.vue'
+import { useAccountStore } from '@/stores/accountStore.js';
+import { addProduct } from '@/services/databaseService.js'
 
 export default {
   name: "ProductCard",
@@ -115,6 +119,41 @@ export default {
     LinkButton,
     SelectableTag,
   },
+  data() {
+    return {
+        accountStore: useAccountStore(),
+        saved: false,
+        loggedIn: false,
+    }
+  },
+  mounted() {
+    this.loggedIn = this.accountStore.isLoggedIn
+  },
+  methods: {
+    async saveProduct(){
+        try {
+            await addProduct(
+                this.accountStore.email,
+                this.accountStore.password,
+                {
+                    "name": this.name,
+                    "brand": this.brand,
+                    "rating": this.rating,
+                    "image": this.image,
+                    "webUrl": this.webUrl,
+                    "price": this.price,
+                    "tag": this.tag,
+                }
+            )
+            this.saved = true
+            alert('Saved')
+        } catch (error) {
+            console.error('Failed to save product:', error)
+            alert('Could not save product')
+            return false
+        }
+    }
+  }
 };
 </script>
 
