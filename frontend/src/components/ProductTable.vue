@@ -42,7 +42,6 @@
           <td v-for="product in products" :key="product.name">
                 <div class="table-rating">
                     <span> {{product.rating}} </span>
-                    <span class="button-icon material-symbols-outlined table-star"> star </span>
                     <span
                         v-for="star in 5"
                         :key="star"
@@ -94,7 +93,6 @@ export default {
   },
   methods: {
     getStarIcon(starPosition, rating) {
-      console.log(starPosition, rating)
         if (rating >= starPosition) {
           return 'star'
         }
