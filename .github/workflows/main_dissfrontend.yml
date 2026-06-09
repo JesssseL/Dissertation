@@ -1,4 +1,4 @@
-name: Deploy Vue frontend to Azure App Service
+name: Build and deploy Node.js app to Azure Web App - DissFrontend
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  AZURE_WEBAPP_NAME: your-frontend-app-service-name
+  AZURE_WEBAPP_NAME: DissFrontend
   NODE_VERSION: '20.x'
 
 jobs:
