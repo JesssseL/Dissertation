@@ -1,6 +1,7 @@
 @import './base.css';
 
-#app {
+#app,
+main {
   display: flex;
   flex-direction: column;
   align-items: center;
